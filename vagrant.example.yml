@@ -1,0 +1,35 @@
+# Your personal GitHub token
+github_token: <your-personal-github-token>
+# Read more: https://github.com/blog/1509-personal-api-tokens
+# You can generate it here: https://github.com/settings/tokens
+
+# Guest OS timezone
+timezone: Europe/Berlin
+
+# Are we need check box updates for every 'vagrant up'?
+box_check_update: false
+
+# Virtual machine name
+machine_name: vadock
+
+# Virtual machine IP
+ip: 10.0.0.2
+
+# Virtual machine CPU cores number
+cpus: 2
+
+# Limit max usage of host cpu
+cpu_limit: 90
+
+# Virtual machine RAM
+memory: 2048
+
+# Memory locked for ElasticSearch
+es_memory: 512m
+
+# HOST WWW-path
+www_path: ./../
+
+# Domains aliases
+domains:
+  - vadock.local

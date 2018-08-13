@@ -1,0 +1,21 @@
+version: "3.5"
+
+networks:
+    default:
+        name: ${VADOCK_NGINX_NETWORK_NAME}
+        external: ${VADOCK_NGINX_NETWORK_EXTERNAL}
+
+services:
+    nginx:
+        image: ${VADOCK_NGINX_IMAGE_NAME}
+        build: ${VADOCK_NGINX_IMAGE_PATH}
+        container_name: ${VADOCK_ID}_nginx
+        ports:
+            - ${VADOCK_NGINX_PORT}:80
+        networks:
+            - default
+        volumes:
+            - ./hosts:/etc/nginx/conf.d
+            - ./logs:/var/log/nginx
+            - ${VADOCK_HOST_PATH}:${VADOCK_GUEST_PATH}
+            - ${VADOCK_HOST_WWW_PATH}:${VADOCK_GUEST_WWW_PATH}
