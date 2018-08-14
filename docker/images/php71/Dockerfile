@@ -31,6 +31,8 @@ RUN apt-get update && apt-get install -y \
         curl \
         wget \
         git \
+        zip \
+        unzip \
         zlib1g-dev \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
