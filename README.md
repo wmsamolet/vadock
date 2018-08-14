@@ -8,6 +8,7 @@ Install Vagrant pluging's:
 ```bash
 vagrant plugin install vagrant-vbguest
 vagrant plugin install vagrant-hostmanager
+vagrant plugin install vagrant-env
 ```
 
 Start virtual machine:

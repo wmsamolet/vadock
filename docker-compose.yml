@@ -2,77 +2,77 @@ version: "3.5"
 
 networks:
     nginx_net:
-        name: ${VADOCK_NGINX_NETWORK_NAME}
-        external: ${VADOCK_NGINX_NETWORK_EXTERNAL}
+        name: ${VDK_NGINX_NETWORK_NAME}
+        external: ${VDK_NGINX_NETWORK_EXTERNAL}
     php70_net:
-        name: ${VADOCK_PHP70_NETWORK_NAME}
-        external: ${VADOCK_PHP70_NETWORK_EXTERNAL}
+        name: ${VDK_PHP70_NETWORK_NAME}
+        external: ${VDK_PHP70_NETWORK_EXTERNAL}
     php71_net:
-        name: ${VADOCK_PHP71_NETWORK_NAME}
-        external: ${VADOCK_PHP71_NETWORK_EXTERNAL}
+        name: ${VDK_PHP71_NETWORK_NAME}
+        external: ${VDK_PHP71_NETWORK_EXTERNAL}
     mysql_net:
-        external: ${VADOCK_MYSQL_NETWORK_EXTERNAL}
-        name: ${VADOCK_MYSQL_NETWORK_NAME}
+        external: ${VDK_MYSQL_NETWORK_EXTERNAL}
+        name: ${VDK_MYSQL_NETWORK_NAME}
     pma_net:
-        external: ${VADOCK_PMA_NETWORK_EXTERNAL}
-        name: ${VADOCK_PMA_NETWORK_NAME}
+        external: ${VDK_PMA_NETWORK_EXTERNAL}
+        name: ${VDK_PMA_NETWORK_NAME}
 
 services:
     nginx:
-        image: ${VADOCK_NGINX_IMAGE_NAME}
-        build: ${VADOCK_NGINX_IMAGE_PATH}
-        container_name: ${VADOCK_ID}_nginx
+        image: ${VDK_NGINX_IMAGE_NAME}
+        build: ${VDK_NGINX_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_nginx
         ports:
-            - ${VADOCK_NGINX_PORT}:80
+            - ${VDK_NGINX_PORT}:80
         networks:
             - nginx_net
         volumes:
             - ./hosts:/etc/nginx/conf.d
             - ./logs:/var/log/nginx
-            - ${VADOCK_HOST_PATH}:${VADOCK_GUEST_PATH}
-            - ${VADOCK_HOST_WWW_PATH}:${VADOCK_GUEST_WWW_PATH}
+            - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
+            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
     php70:
-        image: ${VADOCK_PHP70_IMAGE_NAME}
-        build: ${VADOCK_PHP70_IMAGE_PATH}
-        container_name: ${VADOCK_ID}_${VADOCK_PHP70_IMAGE_NAME}
+        image: ${VDK_PHP70_IMAGE_NAME}
+        build: ${VDK_PHP70_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_${VDK_PHP70_IMAGE_NAME}
         user: www-data
         networks:
             - php70_net
         volumes:
-            - ${VADOCK_HOST_PATH}:${VADOCK_GUEST_PATH}
-            - ${VADOCK_HOST_WWW_PATH}:${VADOCK_GUEST_WWW_PATH}
+            - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
+            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
     php71:
-        image: ${VADOCK_PHP71_IMAGE_NAME}
-        build: ${VADOCK_PHP71_IMAGE_PATH}
-        container_name: ${VADOCK_ID}_${VADOCK_PHP71_IMAGE_NAME}
+        image: ${VDK_PHP71_IMAGE_NAME}
+        build: ${VDK_PHP71_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_${VDK_PHP71_IMAGE_NAME}
         user: www-data
         networks:
             - php71_net
         volumes:
-            - ${VADOCK_HOST_PATH}:${VADOCK_GUEST_PATH}
-            - ${VADOCK_HOST_WWW_PATH}:${VADOCK_GUEST_WWW_PATH}
+            - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
+            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
     mysql:
-        image: ${VADOCK_MYSQL_IMAGE_NAME}
-        build: ${VADOCK_MYSQL_IMAGE_PATH}
-        container_name: ${VADOCK_ID}_mysql
+        image: ${VDK_MYSQL_IMAGE_NAME}
+        build: ${VDK_MYSQL_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_mysql
         env_file:
             - ./.env
         networks:
             - mysql_net
         ports:
-            - ${VADOCK_MYSQL_PORT}:3306
+            - ${VDK_MYSQL_PORT}:3306
         volumes:
-            - ${VADOCK_HOST_PATH}:${VADOCK_GUEST_PATH}
-            - ${VADOCK_HOST_WWW_PATH}:${VADOCK_GUEST_WWW_PATH}
+            - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
+            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
             - ./data/mysql:/var/local
     pma:
-        image: ${VADOCK_PMA_IMAGE_NAME}
-        build: ${VADOCK_PMA_IMAGE_PATH}
-        container_name: ${VADOCK_ID}_pma
+        image: ${VDK_PMA_IMAGE_NAME}
+        build: ${VDK_PMA_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_pma
         restart: always
         env_file:
             - ./.env
         networks:
             - pma_net
         ports:
-            - ${VADOCK_PMA_PORT}:80
+            - ${VDK_PMA_PORT}:80

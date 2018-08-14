@@ -30,20 +30,20 @@ echo
 
 #---------------------------------------------------------------------------------#
 
-VADOCK_IMAGE_NAME="vdk_php71"
+VDK_IMAGE_NAME="vdk_php71"
 
 if [ ! -z "$2" ]
-  then VADOCK_IMAGE_NAME=$2
+  then VDK_IMAGE_NAME=$2
   else
-    read -p "Docker image name [${VADOCK_IMAGE_NAME}]: " READ_VADOCK_IMAGE_NAME
+    read -p "Docker image name [${VDK_IMAGE_NAME}]: " READ_VDK_IMAGE_NAME
 fi
 
-if [ ! -z ${READ_VADOCK_IMAGE_NAME} ]
+if [ ! -z ${READ_VDK_IMAGE_NAME} ]
 then
-    VADOCK_IMAGE_NAME=${READ_VADOCK_IMAGE_NAME}
+    VDK_IMAGE_NAME=${READ_VDK_IMAGE_NAME}
 fi
 
-echo "[VADOCK_IMAGE_NAME]: ${VADOCK_IMAGE_NAME}"
+echo "[VDK_IMAGE_NAME]: ${VDK_IMAGE_NAME}"
 echo
 
 #---------------------------------------------------------------------------------#
@@ -66,30 +66,30 @@ echo
 
 #---------------------------------------------------------------------------------#
 
-VADOCK_PATH=$PWD
+VDK_PATH=$PWD
 
 if [ ! -z "$4" ]
-  then VADOCK_PATH=$4
+  then VDK_PATH=$4
   else
-    read -p "VADOCK_PATH [${VADOCK_PATH}]: " READ_VADOCK_PATH
+    read -p "VDK_PATH [${VDK_PATH}]: " READ_VDK_PATH
 fi
 
-if [ ! -z ${READ_VADOCK_PATH} ]
+if [ ! -z ${READ_VDK_PATH} ]
 then
-    VADOCK_PATH=${READ_VADOCK_PATH}
+    VDK_PATH=${READ_VDK_PATH}
 fi
 
-echo "[VADOCK_PATH]: ${VADOCK_PATH}"
+echo "[VDK_PATH]: ${VDK_PATH}"
 echo
 
 #---------------------------------------------------------------------------------#
 
-info "Set image ${VADOCK_IMAGE_NAME}:${BIN_NAME_FROM} to /usr/bin/${BIN_NAME_TO}"
+info "Set image ${VDK_IMAGE_NAME}:${BIN_NAME_FROM} to /usr/bin/${BIN_NAME_TO}"
 
-cp ${VADOCK_PATH}/docker/bin/${BIN_NAME_FROM} /usr/bin/${BIN_NAME_TO}
+cp ${VDK_PATH}/docker/bin/${BIN_NAME_FROM} /usr/bin/${BIN_NAME_TO}
 
-search="VADOCK_IMAGE_NAME"
-replace=${VADOCK_IMAGE_NAME}
+search="VDK_IMAGE_NAME"
+replace=${VDK_IMAGE_NAME}
 sed -i "s#${search}#${replace}#g" /usr/bin/${BIN_NAME_TO}
 
 chmod +x /usr/bin/${BIN_NAME_TO}

@@ -32,7 +32,7 @@ Vagrant.configure(2) do |config|
 
     # Should we ask about box updates?
     config.vm.box_check_update = options['box_check_update']
-  
+
     config.vm.provider 'virtualbox' do |vb|
         # Machine cpus count
         vb.cpus = options['cpus']
@@ -59,7 +59,7 @@ Vagrant.configure(2) do |config|
     # Network settings
     ####################################################################################################################
 
-    config.vm.network :forwarded_port, guest: 33306, host: 3307, host_ip: '127.0.0.1'
+    config.vm.network :forwarded_port, guest: 3306, host: options['host_mysql_port'], host_ip: '127.0.0.1'
     config.vm.network :private_network, ip: options['ip']
 
     ####################################################################################################################
@@ -71,11 +71,11 @@ Vagrant.configure(2) do |config|
 
     # Machine name (for guest machine console)
     config.vm.hostname = options['machine_name']
-	
+
     # Shared folders
     config.vm.synced_folder '.', '/vagrant', disabled: true
     config.vm.synced_folder '.', '/vadock', owner: 'vagrant', group: 'vagrant'
-    config.vm.synced_folder options['www_path'], '/www', owner: 'vagrant', group: 'vagrant'
+    config.vm.synced_folder options['host_www_path'], '/www', owner: 'vagrant', group: 'vagrant'
 
     config.vm.provision :hostmanager
     config.hostmanager.enabled            = true
@@ -84,7 +84,7 @@ Vagrant.configure(2) do |config|
     config.hostmanager.ignore_private_ip  = false
     config.hostmanager.include_offline    = true
     config.hostmanager.aliases            = options['domains']
-	
+
     ####################################################################################################################
     # Provisions
     ####################################################################################################################

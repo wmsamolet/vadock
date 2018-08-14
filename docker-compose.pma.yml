@@ -2,18 +2,18 @@ version: "3.5"
 
 networks:
     default:
-        external: ${VADOCK_PMA_NETWORK_EXTERNAL}
-        name: ${VADOCK_PMA_NETWORK_NAME}
+        external: ${VDK_PMA_NETWORK_EXTERNAL}
+        name: ${VDK_PMA_NETWORK_NAME}
 
 services:
     pma:
-        image: ${VADOCK_PMA_IMAGE_NAME}
-        build: ${VADOCK_PMA_IMAGE_PATH}
-        container_name: ${VADOCK_ID}_pma
+        image: ${VDK_PMA_IMAGE_NAME}
+        build: ${VDK_PMA_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_pma
         restart: always
         env_file:
             - ./.env
         networks:
             - default
         ports:
-            - ${VADOCK_PMA_PORT}:80
+            - ${VDK_PMA_PORT}:80

@@ -2,17 +2,17 @@ version: "3.5"
 
 networks:
     default:
-        name: ${VADOCK_PHP70_NETWORK_NAME}
-        external: ${VADOCK_PHP70_NETWORK_EXTERNAL}
+        name: ${VDK_PHP70_NETWORK_NAME}
+        external: ${VDK_PHP70_NETWORK_EXTERNAL}
 
 services:
     php70:
-        image: ${VADOCK_PHP70_IMAGE_NAME}
-        build: ${VADOCK_PHP70_IMAGE_PATH}
-        container_name: ${VADOCK_ID}_${VADOCK_PHP70_IMAGE_NAME}
+        image: ${VDK_PHP70_IMAGE_NAME}
+        build: ${VDK_PHP70_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_${VDK_PHP70_IMAGE_NAME}
         user: www-data
         networks:
             - default
         volumes:
-            - ${VADOCK_HOST_PATH}:${VADOCK_GUEST_PATH}
-            - ${VADOCK_HOST_WWW_PATH}:${VADOCK_GUEST_WWW_PATH}
+            - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
+            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}

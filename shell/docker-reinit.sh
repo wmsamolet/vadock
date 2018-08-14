@@ -10,24 +10,24 @@ function info {
 info "DOCKER REINIT (NGINX + PHP) DETACHED"
 
 ###################################################################################
-VADOCK_COMPOSE=""
+VDK_COMPOSE=""
 if [ ! -z "$1" ]
-  then VADOCK_COMPOSE="."$1
+  then VDK_COMPOSE="."$1
 fi
-info "VADOCK_COMPOSE ${VADOCK_COMPOSE}"
+info "VDK_COMPOSE ${VDK_COMPOSE}"
 ###################################################################################
 
 ###################################################################################
-VADOCK_PATH=$PWD
+VDK_PATH=$PWD
 if [ ! -z "$2" ]
-  then VADOCK_PATH=$2
+  then VDK_PATH=$2
 fi
-info "VADOCK_PATH ${VADOCK_PATH}"
+info "VDK_PATH ${VDK_PATH}"
 ###################################################################################
 
-(cd ${VADOCK_PATH} && docker-compose down)
-(cd ${VADOCK_PATH} && docker volume prune -f)
-(cd ${VADOCK_PATH} && rm -rf docker/logs/*)
-(cd ${VADOCK_PATH} && docker-compose -p "${VADOCK_PATH}" -f "${VADOCK_PATH}"/docker-compose"${VADOCK_COMPOSE}".yml up -d --build)
+(cd ${VDK_PATH} && docker-compose down)
+(cd ${VDK_PATH} && docker volume prune -f)
+(cd ${VDK_PATH} && rm -rf docker/logs/*)
+(cd ${VDK_PATH} && docker-compose -p "${VDK_PATH}" -f "${VDK_PATH}"/docker-compose"${VDK_COMPOSE}".yml up -d --build)
 
 docker ps

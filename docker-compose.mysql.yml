@@ -2,21 +2,21 @@ version: "3.5"
 
 networks:
     default:
-        external: ${VADOCK_MYSQL_NETWORK_EXTERNAL}
-        name: ${VADOCK_MYSQL_NETWORK_NAME}
+        external: ${VDK_MYSQL_NETWORK_EXTERNAL}
+        name: ${VDK_MYSQL_NETWORK_NAME}
 
 services:
     mysql:
-        image: ${VADOCK_MYSQL_IMAGE_NAME}
-        build: ${VADOCK_MYSQL_IMAGE_PATH}
-        container_name: ${VADOCK_ID}_mysql
+        image: ${VDK_MYSQL_IMAGE_NAME}
+        build: ${VDK_MYSQL_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_mysql
         env_file:
             - ./.env
         networks:
             - default
         ports:
-            - ${VADOCK_MYSQL_PORT}:3306
+            - ${VDK_MYSQL_PORT}:3306
         volumes:
-            - ${VADOCK_HOST_PATH}:${VADOCK_GUEST_PATH}
-            - ${VADOCK_HOST_WWW_PATH}:${VADOCK_GUEST_WWW_PATH}
+            - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
+            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
             - ./data/mysql:/var/local
