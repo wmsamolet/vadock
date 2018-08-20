@@ -9,7 +9,7 @@ services:
     php70:
         image: ${VDK_PHP70_IMAGE_NAME}
         build: ${VDK_PHP70_IMAGE_PATH}
-        container_name: ${VDK_DOCKER_ID}_${VDK_PHP70_IMAGE_NAME}
+        container_name: ${VDK_DOCKER_ID}_php70
         user: www-data
         networks:
             - default
