@@ -97,7 +97,7 @@ Vagrant.configure(2) do |config|
 
     # Generate Vagrant Putty Private Key
     config.vm.provision "putty", type: "shell" do |s|
-        s.path = "./shell/vagrant-generate-keys.sh"
+        s.path = "./bin/vagrant-generate-keys.sh"
         s.args = [options['machine_name']]
     end
 
@@ -105,9 +105,9 @@ Vagrant.configure(2) do |config|
 
     # Docker build
     config.vm.provision "shell", path: './vagrant/provision/docker.sh', run: "once"
-    config.vm.provision "shell", path: './shell/docker-get-compose.sh', run: "once"
+    config.vm.provision "shell", path: './bin/docker-get-compose.sh', run: "once"
     config.vm.provision "docker_init", type: "shell", run: "always" do |s|
-        s.path = "./shell/docker-init.sh"
+        s.path = "./bin/docker-init.sh"
         s.args = ["", "/vadock"]
     end
 
