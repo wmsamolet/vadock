@@ -1,0 +1,22 @@
+version: "3.5"
+
+networks:
+    default:
+        external: ${VDK_MARIADB_NETWORK_EXTERNAL}
+        name: ${VDK_MARIADB_NETWORK_NAME}
+
+services:
+    mariadb:
+        image: ${VDK_MARIADB_IMAGE_NAME}
+        build: ${VDK_MARIADB_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_mariadb
+        env_file:
+            - ./.env
+        networks:
+            - default
+        ports:
+            - ${VDK_MARIADB_PORT}:3306
+        volumes:
+            - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
+            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
+            - ./data/mariadb:/var/local

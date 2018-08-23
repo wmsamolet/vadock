@@ -97,7 +97,7 @@ Vagrant.configure(2) do |config|
 
     # Generate Vagrant Putty Private Key
     config.vm.provision "putty", type: "shell" do |s|
-        s.path = "./bin/vagrant-generate-keys.sh"
+        s.path = "./bin/vagrant/provision/generate-keys.sh"
         s.args = [options['machine_name']]
     end
 

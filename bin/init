@@ -1,4 +1,5 @@
 #!/bin/bash
+
 function info {
   echo "----------------------------------------------------------------------"
   echo " "
@@ -7,7 +8,7 @@ function info {
   echo "----------------------------------------------------------------------"
 }
 
-info "DOCKER RESTART (NGINX + PHP)"
+info "DOCKER INIT (UP + BUILD) ${1}"
 
 ###################################################################################
 VDK_COMPOSE=""
@@ -18,13 +19,13 @@ info "VDK_COMPOSE ${VDK_COMPOSE}"
 ###################################################################################
 
 ###################################################################################
-VDK_PATH=$PWD
+VDK_PATH=$(dirname $(dirname "$0"))
 if [ ! -z "$2" ]
   then VDK_PATH=$2
 fi
 info "VDK_PATH ${VDK_PATH}"
 ###################################################################################
 
-(cd ${VDK_PATH} && docker-compose -p "${VDK_PATH}" -f "${VDK_PATH}"/docker-compose"${VDK_COMPOSE}".yml restart)
+(cd ${VDK_PATH} && docker-compose -p ${VDK_PATH} -f ${VDK_PATH}/docker-compose"${VDK_COMPOSE}".yml up -d --build)
 
 docker ps

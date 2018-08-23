@@ -10,9 +10,9 @@ networks:
     php71_net:
         name: ${VDK_PHP71_NETWORK_NAME}
         external: ${VDK_PHP71_NETWORK_EXTERNAL}
-    mysql_net:
-        external: ${VDK_MYSQL_NETWORK_EXTERNAL}
-        name: ${VDK_MYSQL_NETWORK_NAME}
+    mariadb_net:
+        external: ${VDK_MARIADB_NETWORK_EXTERNAL}
+        name: ${VDK_MARIADB_NETWORK_NAME}
     pma_net:
         external: ${VDK_PMA_NETWORK_EXTERNAL}
         name: ${VDK_PMA_NETWORK_NAME}
@@ -51,20 +51,20 @@ services:
         volumes:
             - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
             - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
-    mysql:
-        image: ${VDK_MYSQL_IMAGE_NAME}
-        build: ${VDK_MYSQL_IMAGE_PATH}
-        container_name: ${VDK_DOCKER_ID}_mysql
+    mariadb:
+        image: ${VDK_MARIADB_IMAGE_NAME}
+        build: ${VDK_MARIADB_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_mariadb
         env_file:
             - ./.env
         networks:
-            - mysql_net
+            - mariadb_net
         ports:
-            - ${VDK_MYSQL_PORT}:3306
+            - ${VDK_MARIADB_PORT}:3306
         volumes:
             - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
             - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
-            - ./data/mysql:/var/local
+            - ./data/mariadb:/var/local
     pma:
         image: ${VDK_PMA_IMAGE_NAME}
         build: ${VDK_PMA_IMAGE_PATH}
