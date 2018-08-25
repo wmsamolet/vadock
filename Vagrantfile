@@ -17,7 +17,7 @@ options = YAML.load_file config[:local]
 ########################################################################################################################
 
 if options['github_token'].nil? || options['github_token'].to_s.length != 40
-	puts "You must place REAL GitHub token into configuration:\n/vagrant/config/vagrant-local.yml"
+	puts "You must place REAL GitHub token into configuration:\n/vagrant.yml"
 	exit
 end
 

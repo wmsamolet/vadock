@@ -1,0 +1,18 @@
+version: "3.5"
+
+networks:
+    default:
+        name: ${VDK_PHP56_NETWORK_NAME}
+        external: ${VDK_PHP56_NETWORK_EXTERNAL}
+
+services:
+    php70:
+        image: ${VDK_PHP56_IMAGE_NAME}
+        build: ${VDK_PHP56_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_php56
+        user: www-data
+        networks:
+            - default
+        volumes:
+            - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
+            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}

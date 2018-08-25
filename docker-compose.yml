@@ -4,6 +4,9 @@ networks:
     nginx_net:
         name: ${VDK_NGINX_NETWORK_NAME}
         external: ${VDK_NGINX_NETWORK_EXTERNAL}
+    php56_net:
+        name: ${VDK_PHP56_NETWORK_NAME}
+        external: ${VDK_PHP56_NETWORK_EXTERNAL}
     php70_net:
         name: ${VDK_PHP70_NETWORK_NAME}
         external: ${VDK_PHP70_NETWORK_EXTERNAL}
@@ -29,6 +32,16 @@ services:
         volumes:
             - ./hosts:/etc/nginx/conf.d
             - ./logs:/var/log/nginx
+            - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
+            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
+    php56:
+        image: ${VDK_PHP56_IMAGE_NAME}
+        build: ${VDK_PHP56_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_${VDK_PHP56_IMAGE_NAME}
+        user: www-data
+        networks:
+            - php56_net
+        volumes:
             - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
             - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
     php70:
