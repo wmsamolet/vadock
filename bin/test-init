@@ -48,6 +48,6 @@ echo
 
 #---------------------------------------------------------------------------------#
 
-(cd ${VDK_PATH} && docker-compose -p ${VDK_PATH} -f ${VDK_PATH}/docker-compose"${VDK_COMPOSE_SUFFIX}".yml up -d --build)
+(cd ${VDK_PATH} && docker-compose -p ${VDK_PATH} -f ${VDK_PATH}/docker-compose"${VDK_COMPOSE_SUFFIX}".yml up --build)
 
 docker ps

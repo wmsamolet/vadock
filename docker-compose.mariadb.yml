@@ -9,7 +9,7 @@ services:
     mariadb:
         image: ${VDK_MARIADB_IMAGE_NAME}
         build: ${VDK_MARIADB_IMAGE_PATH}
-        container_name: ${VDK_DOCKER_ID}_mariadb
+        container_name: ${VDK_DOCKER_ID}_${VDK_MARIADB_IMAGE_NAME}
         env_file:
             - ./.env
         networks:

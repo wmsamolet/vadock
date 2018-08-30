@@ -9,7 +9,7 @@ services:
     pma:
         image: ${VDK_PMA_IMAGE_NAME}
         build: ${VDK_PMA_IMAGE_PATH}
-        container_name: ${VDK_DOCKER_ID}_pma
+        container_name: ${VDK_DOCKER_ID}_${VDK_PMA_IMAGE_NAME}
         restart: always
         env_file:
             - ./.env

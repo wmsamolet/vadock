@@ -2,14 +2,14 @@ version: "3.5"
 
 networks:
     default:
-        name: ${VDK_PHP70_NETWORK_NAME}
-        external: ${VDK_PHP70_NETWORK_EXTERNAL}
+        name: ${VDK_PHP72_NETWORK_NAME}
+        external: ${VDK_PHP72_NETWORK_EXTERNAL}
 
 services:
-    php70:
-        image: ${VDK_PHP70_IMAGE_NAME}
-        build: ${VDK_PHP70_IMAGE_PATH}
-        container_name: ${VDK_DOCKER_ID}_${VDK_PHP70_IMAGE_NAME}
+    PHP72:
+        image: ${VDK_PHP72_IMAGE_NAME}
+        build: ${VDK_PHP72_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_${VDK_PHP72_IMAGE_NAME}
         command: faketime -f ${VDK_DOCKER_FAKETIME} php-fpm
         user: www-data
         networks:

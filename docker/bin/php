@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -itw /host${PWD} VDK_IMAGE_NAME php "$@"
+docker exec -itw /host${PWD} VDK_CONTAINER_NAME php "$@"

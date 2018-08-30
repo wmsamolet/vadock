@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -itw /host${PWD} VDK_IMAGE_NAME php -d memory_limit=1.5G /usr/local/bin/composer "$@"
+docker exec -itw /host${PWD} VDK_CONTAINER_NAME php -d memory_limit=2G /usr/local/bin/composer "$@"

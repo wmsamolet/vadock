@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -itw /host${PWD} VDK_IMAGE_NAME mysql "$@"
+docker exec -itw /host${PWD} VDK_CONTAINER_NAME mysql "$@"

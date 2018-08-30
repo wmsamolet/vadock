@@ -9,7 +9,7 @@ services:
     nginx:
         image: ${VDK_NGINX_IMAGE_NAME}
         build: ${VDK_NGINX_IMAGE_PATH}
-        container_name: ${VDK_DOCKER_ID}_nginx
+        container_name: ${VDK_DOCKER_ID}_${VDK_NGINX_IMAGE_NAME}
         ports:
             - ${VDK_NGINX_PORT}:80
         networks:

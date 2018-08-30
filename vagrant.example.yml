@@ -27,6 +27,16 @@ memory: 2048
 # Memory locked for ElasticSearch
 es_memory: 512m
 
+# Vagrant up docker-compose
+docker_compose:
+  - nginx
+  - mariadb
+  - php56
+  - php70
+  - php71
+  - php72
+  - pma
+  
 # HOST MySQL Port
 host_mysql_port: 3307
 

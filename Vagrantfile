@@ -33,6 +33,7 @@ Vagrant.configure(2) do |config|
     # Should we ask about box updates?
     config.vm.box_check_update = options['box_check_update']
 
+    # Configure VirtualBox
     config.vm.provider 'virtualbox' do |vb|
         # Machine cpus count
         vb.cpus = options['cpus']
@@ -48,6 +49,9 @@ Vagrant.configure(2) do |config|
 
         # Limit max cpu usage of host machine
         vb.customize ['modifyvm', :id, '--cpuexecutioncap', options['cpu_limit']]
+
+        # Enable symlinks
+        vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
     end
 
     config.vm.provision "fix-no-tty", type: "shell" do |s|
@@ -90,25 +94,31 @@ Vagrant.configure(2) do |config|
     ####################################################################################################################
 
     # provision Base Packages
-    config.vm.provision "base", type: "shell" do |s|
+    config.vm.provision 'base', type: 'shell', run: 'once' do |s|
         s.path = "./vagrant/provision/base.sh"
         s.args = [options['timezone']]
     end
 
     # Generate Vagrant Putty Private Key
-    config.vm.provision "putty", type: "shell" do |s|
-        s.path = "./vagrant/provision/generate-keys.sh"
+    config.vm.provision 'putty', type: 'shell', run: 'once' do |s|
+        s.path = './vagrant/provision/generate-keys.sh'
         s.args = [options['machine_name']]
     end
 
-    config.vm.provision "shell", inline: 'echo "nameserver 8.8.8.8" >> /etc/resolv.conf', run: "always"
+    config.vm.provision 'shell', inline: 'echo "nameserver 8.8.8.8" >> /etc/resolv.conf', run: 'always'
+
+    # NodeJS
+    config.vm.provision 'shell', path: './vagrant/provision/nodejs.sh', run: 'once'
 
     # Docker build
-    config.vm.provision "shell", path: './vagrant/provision/docker.sh', run: "once"
-    config.vm.provision "shell", path: './bin/get-compose', run: "once"
-    config.vm.provision "docker_init", type: "shell", run: "always" do |s|
-        s.path = "./bin/init"
-        s.args = ["", "/vadock"]
+    config.vm.provision 'shell', path: './vagrant/provision/docker.sh', run: 'once'
+    config.vm.provision 'shell', path: './bin/get-compose', run: "once"
+
+    options['docker_compose'].each do |composeName|
+        config.vm.provision 'shell', run: 'always' do |s|
+            s.path = "./bin/init"
+            s.args = [composeName, "/vadock"]
+        end
     end
 
     # post-install message (vagrant console)

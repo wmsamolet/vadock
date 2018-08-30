@@ -28,6 +28,7 @@ apt-get update
 apt-get upgrade -y
 
 info "Installing base packages"
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 apt-get install -y \
     software-properties-common \
     debconf-utils \
@@ -42,12 +43,3 @@ apt-get install -y \
     vim \
     git \
     putty-tools
-
-info "Installing BASH mods"
-echo 'force_color_prompt=yes' >> ~/.bashrc
-echo 'export TERM=xterm-color' >> ~/.bashrc
-echo "export GREP_OPTIONS='--color=auto' GREP_COLOR='1;32'" >> ~/.bashrc
-echo 'export CLICOLOR=1' >> ~/.bashrc
-echo 'export LSCOLORS=ExFxCxDxBxegedabagacad' >> ~/.bashrc
-echo "PS1='\[\033[1;36m\]\u\[\033[1;31m\]@\[\033[1;32m\]\h:\[\033[1;35m\]\w\[\033[1;31m\]\$\[\033[0m\] '" >> ~/.bashrc
-source ~/.bashrc
