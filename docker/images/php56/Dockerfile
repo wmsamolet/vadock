@@ -38,8 +38,9 @@ RUN apt-get update && apt-get install -y \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng-dev \
-				libicu-dev \
+		libicu-dev \
         mysql-client \
+        faketime \
     && docker-php-ext-install -j$(nproc) iconv mcrypt mbstring mysqli pdo_mysql zip \
     && docker-php-ext-configure opcache --enable-opcache \
     && docker-php-ext-install opcache \
