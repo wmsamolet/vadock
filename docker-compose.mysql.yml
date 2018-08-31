@@ -7,7 +7,7 @@ networks:
 
 services:
     mariadb:
-        image: ${VDK_MYSQL_IMAGE_NAME}
+        image: ${VDK_MYSQL_IMAGE_NAME}:${VDK_MYSQL_IMAGE_VERSION}
         build: ${VDK_MYSQL_IMAGE_PATH}
         container_name: ${VDK_DOCKER_ID}_${VDK_MYSQL_IMAGE_NAME}
         env_file:

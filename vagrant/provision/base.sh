@@ -42,4 +42,5 @@ apt-get install -y \
     tmux \
     vim \
     git \
-    putty-tools
+    putty-tools \
+    sshpass
