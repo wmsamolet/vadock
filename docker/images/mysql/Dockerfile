@@ -1,5 +1,5 @@
 # Для начала указываем исходный образ, он будет использован как основа
-FROM mysql:latest
+FROM mysql:5.6
 
 COPY conf.d/* /etc/mysql/conf.d/
 
