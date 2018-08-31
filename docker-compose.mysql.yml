@@ -1,0 +1,22 @@
+version: "3.5"
+
+networks:
+    default:
+        external: ${VDK_MYSQL_NETWORK_EXTERNAL}
+        name: ${VDK_MYSQL_NETWORK_NAME}
+
+services:
+    mariadb:
+        image: ${VDK_MYSQL_IMAGE_NAME}
+        build: ${VDK_MYSQL_IMAGE_PATH}
+        container_name: ${VDK_DOCKER_ID}_${VDK_MYSQL_IMAGE_NAME}
+        env_file:
+            - ./.env
+        networks:
+            - default
+        ports:
+            - ${VDK_MYSQL_PORT}:3306
+        volumes:
+            - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
+            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
+            - ./data/mysql:/var/local
