@@ -81,7 +81,13 @@ ADD php.ini /usr/local/etc/php/conf.d/40-custom.ini
 # Указываем рабочую директорию для PHP
 WORKDIR /host
 
+# FIX проблемы с правами (для запуска через docker exec)
+RUN usermod --non-unique --uid 1000 www-data \
+    && groupmod --non-unique --gid 1000 www-data \
+    && chown -R www-data:www-data /var/www \
+    && chown -R www-data:www-data /host
+
 # Запускаем контейнер
 # Из документации: The main purpose of a CMD is to provide defaults for an executing container. These defaults can include an executable,
 # or they can omit the executable, in which case you must specify an ENTRYPOINT instruction as well.
-CMD ["php-fpm"]
+CMD []
