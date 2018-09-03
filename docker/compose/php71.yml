@@ -2,8 +2,8 @@ version: "3.5"
 
 networks:
     default:
-        name: ${VDK_PHP71_NETWORK_NAME}
-        external: ${VDK_PHP71_NETWORK_EXTERNAL}
+        external:
+            name: ${VDK_NETWORK_NAME}
 
 services:
     php71:
@@ -14,6 +14,8 @@ services:
         user: www-data
         networks:
             - default
+        env_file:
+            - ${VDK_DOCKER_HOST_PATH}/.env
         volumes:
             - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
             - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}

@@ -29,12 +29,12 @@ es_memory: 512m
 
 # Vagrant up docker-compose
 docker_compose:
-  - nginx
-  - mariadb
   - php56
   - php70
   - php71
   - php72
+  - nginx
+  - mariadb
   - pma
   
 # HOST MySQL Port

@@ -1,4 +1,5 @@
 #!/bin/bash
+
 function info {
   echo "----------------------------------------------------------------------"
   echo " "
@@ -7,27 +8,26 @@ function info {
   echo "----------------------------------------------------------------------"
 }
 
-info "DOCKER REINIT (NGINX + PHP) DETACHED"
+info "DOCKER DEINIT"
 
 ###################################################################################
-VDK_COMPOSE=""
+VDK_COMPOSE_FILE=""
 if [ ! -z "$1" ]
-  then VDK_COMPOSE="."$1
+  then VDK_COMPOSE_FILE=$1
 fi
-info "VDK_COMPOSE ${VDK_COMPOSE}"
+info "VDK_COMPOSE_FILE ${VDK_COMPOSE_FILE}"
 ###################################################################################
 
 ###################################################################################
-VDK_PATH="$( cd "$(dirname "$0")"/../ ; pwd -P )"
+VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
 if [ ! -z "$2" ]
   then VDK_PATH=$2
 fi
 info "VDK_PATH ${VDK_PATH}"
 ###################################################################################
 
-(cd ${VDK_PATH} && docker-compose down)
-(cd ${VDK_PATH} && docker volume prune -f)
-(cd ${VDK_PATH} && rm -rf docker/logs/*)
-(cd ${VDK_PATH} && docker-compose -p "${VDK_PATH}" -f "${VDK_PATH}"/docker-compose"${VDK_COMPOSE}".yml up -d --build)
+(cd ${VDK_PATH} && docker-compose -p ${VDK_PATH} -f ${VDK_PATH}/docker/compose/${VDK_COMPOSE_FILE}.yml down)
 
-docker ps
+(cd ${VDK_PATH} && docker volume prune -f)
+
+(cd ${VDK_PATH} && rm -rf docker/logs/*)

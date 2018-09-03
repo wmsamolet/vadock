@@ -3,11 +3,7 @@ require 'fileutils'
 
 config = {
   local: './vagrant.yml',
-  example: './vagrant.example.yml'
 }
-
-# Copy config from example if local config not exists
-FileUtils.cp config[:example], config[:local] unless File.exist?(config[:local])
 
 # Read config
 options = YAML.load_file config[:local]
@@ -21,19 +17,33 @@ if options['github_token'].nil? || options['github_token'].to_s.length != 40
 	exit
 end
 
+$post_up_message = <<MSG
+\033[0;32m
+#######################################
+##                                   ##
+##     VAGRANT UP SUCCESSFUL!        ##
+##                                   ##
+####################################### \033[0m
+MSG
+
 ########################################################################################################################
 # Vagrant configurate
 ########################################################################################################################
 
 Vagrant.configure(2) do |config|
-
+    #
     # select the box
+    #
     config.vm.box = "debian/stretch64"
 
+    #
     # Should we ask about box updates?
+    #
     config.vm.box_check_update = options['box_check_update']
 
+    #
     # Configure VirtualBox
+    #
     config.vm.provider 'virtualbox' do |vb|
         # Machine cpus count
         vb.cpus = options['cpus']
@@ -54,10 +64,10 @@ Vagrant.configure(2) do |config|
         vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
     end
 
-    config.vm.provision "fix-no-tty", type: "shell" do |s|
-        s.privileged = false
-        s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile"
-    end
+    #config.vm.provision "fix-no-tty", type: "shell" do |s|
+    #    s.privileged = false
+    #    s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile"
+    #end
 
     ####################################################################################################################
     # Network settings
@@ -70,17 +80,26 @@ Vagrant.configure(2) do |config|
     # Hosts settings (host machine)
     ####################################################################################################################
 
+    #
     # Machine name (for vagrant console)
+    #
     config.vm.define options['machine_name']
 
+    #
     # Machine name (for guest machine console)
+    #
     config.vm.hostname = options['machine_name']
 
+    #
     # Shared folders
+    #
     config.vm.synced_folder '.', '/vagrant', disabled: true
     config.vm.synced_folder '.', '/vadock', owner: 'vagrant', group: 'vagrant'
     config.vm.synced_folder options['host_www_path'], '/www', owner: 'vagrant', group: 'vagrant'
 
+    #
+    # Hostmanager config (hosts file)
+    #
     config.vm.provision :hostmanager
     config.hostmanager.enabled            = true
     config.hostmanager.manage_host        = true
@@ -93,13 +112,17 @@ Vagrant.configure(2) do |config|
     # Provisions
     ####################################################################################################################
 
+    #
     # provision Base Packages
+    #
     config.vm.provision 'base', type: 'shell', run: 'once' do |s|
         s.path = "./vagrant/provision/base.sh"
         s.args = [options['timezone']]
     end
 
+    #
     # Generate Vagrant Putty Private Key
+    #
     config.vm.provision 'putty', type: 'shell', run: 'once' do |s|
         s.path = './vagrant/provision/generate-keys.sh'
         s.args = [options['machine_name']]
@@ -107,20 +130,37 @@ Vagrant.configure(2) do |config|
 
     config.vm.provision 'shell', inline: 'echo "nameserver 8.8.8.8" >> /etc/resolv.conf', run: 'always'
 
+    #
     # NodeJS
+    #
     config.vm.provision 'shell', path: './vagrant/provision/nodejs.sh', run: 'once'
 
+    #
     # Docker build
+    #
     config.vm.provision 'shell', path: './vagrant/provision/docker.sh', run: 'once'
-    config.vm.provision 'shell', path: './bin/get-compose', run: "once"
+    config.vm.provision 'shell', path: './docker/bin/get-compose', run: "once"
 
+    #
+    # Docker init network
+    #
+    config.vm.provision 'init_docker_network', type: 'shell', run: 'always' do |s|
+        s.path = './docker/bin/init-network'
+        s.args = ["", "/vadock"]
+    end
+
+    #
+    # Docker init docker-compose.*.yml files
+    #
     options['docker_compose'].each do |composeName|
         config.vm.provision 'shell', run: 'always' do |s|
-            s.path = "./bin/init"
+            s.path = "./docker/bin/init"
             s.args = [composeName, "/vadock"]
         end
     end
 
-    # post-install message (vagrant console)
-    config.vm.post_up_message = "VAGRANT START SUCCESSFUL!"
+    #
+    # Post-install message (vagrant console)
+    #
+    config.vm.post_up_message = $post_up_message
 end

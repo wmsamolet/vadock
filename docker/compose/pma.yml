@@ -2,8 +2,8 @@ version: "3.5"
 
 networks:
     default:
-        external: ${VDK_PMA_NETWORK_EXTERNAL}
-        name: ${VDK_PMA_NETWORK_NAME}
+        name: ${VDK_NETWORK_NAME}
+        external: true
 
 services:
     pma:
@@ -11,9 +11,9 @@ services:
         build: ${VDK_PMA_IMAGE_PATH}
         container_name: ${VDK_DOCKER_ID}_${VDK_PMA_IMAGE_NAME}
         restart: always
-        env_file:
-            - ./.env
         networks:
             - default
         ports:
             - ${VDK_PMA_PORT}:80
+        env_file:
+            - ${VDK_DOCKER_HOST_PATH}/.env

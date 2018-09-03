@@ -1,0 +1,38 @@
+#!/bin/bash
+
+function info {
+  echo "----------------------------------------------------------------------------"
+  echo " "
+  echo "--> $1"
+  echo " "
+  echo "----------------------------------------------------------------------------"
+}
+
+#---------------------------------------------------------------------------------#
+
+INIT_NETWORK_NAME=${VDK_NETWORK_NAME}
+
+if [ ! -z "$1" ]
+  then INIT_NETWORK_NAME=$1
+fi
+
+#---------------------------------------------------------------------------------#
+
+VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
+
+if [ ! -z "$2" ]
+  then VDK_PATH=$2
+fi
+
+#---------------------------------------------------------------------------------#
+
+source ${VDK_PATH}/.env
+
+if [ -z "$INIT_NETWORK_NAME" ]
+  then INIT_NETWORK_NAME=${VDK_NETWORK_NAME}
+fi
+
+info "DOCKER INIT NETWORK ${INIT_NETWORK_NAME} (${VDK_PATH}/.env)"
+
+docker network rm ${INIT_NETWORK_NAME}
+docker network create ${INIT_NETWORK_NAME}

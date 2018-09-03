@@ -2,8 +2,8 @@ version: "3.5"
 
 networks:
     default:
-        name: ${VDK_NGINX_NETWORK_NAME}
-        external: ${VDK_NGINX_NETWORK_EXTERNAL}
+        name: ${VDK_NETWORK_NAME}
+        external: true
 
 services:
     nginx:
@@ -14,8 +14,10 @@ services:
             - ${VDK_NGINX_PORT}:80
         networks:
             - default
+        env_file:
+            - ${VDK_DOCKER_HOST_PATH}/.env
         volumes:
-            - ./hosts:/etc/nginx/conf.d
-            - ./logs:/var/log/nginx
             - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
             - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
+            - ${VDK_DOCKER_HOST_PATH}/hosts:/etc/nginx/conf.d
+            - ${VDK_DOCKER_HOST_PATH}/logs:/var/log/nginx

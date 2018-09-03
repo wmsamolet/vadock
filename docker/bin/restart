@@ -1,5 +1,4 @@
 #!/bin/bash
-
 function info {
   echo "----------------------------------------------------------------------"
   echo " "
@@ -8,28 +7,22 @@ function info {
   echo "----------------------------------------------------------------------"
 }
 
-info "DOCKER DEINIT"
+info "DOCKER RESTART (NGINX + PHP)"
 
 ###################################################################################
 VDK_COMPOSE=""
 if [ ! -z "$1" ]
-  then VDK_COMPOSE="."$1
+  then VDK_COMPOSE=$1
 fi
 info "VDK_COMPOSE ${VDK_COMPOSE}"
 ###################################################################################
 
 ###################################################################################
-VDK_PATH="$( cd "$(dirname "$0")"/../ ; pwd -P )"
+VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
 if [ ! -z "$2" ]
   then VDK_PATH=$2
 fi
 info "VDK_PATH ${VDK_PATH}"
 ###################################################################################
 
-(cd ${VDK_PATH} && docker-compose -p "${VDK_PATH}" -f "${VDK_PATH}"/docker-compose"${VDK_COMPOSE}".yml down)
-
-(cd ${VDK_PATH} && docker volume prune -f)
-
-(cd ${VDK_PATH} && rm -rf docker/logs/*)
-
-docker ps
+(cd ${VDK_PATH} && docker-compose -p "${VDK_PATH}" -f ${VDK_PATH}/docker/compose/${VDK_COMPOSE_FILE}.yml restart)

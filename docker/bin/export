@@ -25,7 +25,7 @@ then
     BIN_NAME_FROM=${READ_BIN_NAME_FROM}
 fi
 
-echo "[BIN_NAME_FROM]: ./docker/bin/${BIN_NAME_FROM}"
+echo "[BIN_NAME_FROM]: ./docker/export/${BIN_NAME_FROM}"
 echo
 
 #---------------------------------------------------------------------------------#
@@ -66,7 +66,7 @@ echo
 
 #---------------------------------------------------------------------------------#
 
-VDK_PATH="$( cd "$(dirname "$0")"/../ ; pwd -P )"
+VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
 
 if [ ! -z "$4" ]
   then VDK_PATH=$4
@@ -86,7 +86,7 @@ echo
 
 info "Set image ${VDK_CONTAINER_NAME}:${BIN_NAME_FROM} to /usr/bin/${BIN_NAME_TO}"
 
-cp ${VDK_PATH}/docker/bin/${BIN_NAME_FROM} /usr/bin/${BIN_NAME_TO}
+cp ${VDK_PATH}/docker/export/${BIN_NAME_FROM} /usr/bin/${BIN_NAME_TO}
 
 search="VDK_CONTAINER_NAME"
 replace=${VDK_CONTAINER_NAME}
