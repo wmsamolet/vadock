@@ -8,7 +8,11 @@ networks:
 services:
     pma:
         image: ${VDK_PMA_IMAGE_NAME}
-        build: ${VDK_PMA_IMAGE_PATH}
+        build:
+            context: ${VDK_PMA_IMAGE_PATH}
+            args:
+                - version=${VDK_PMA_IMAGE_VERSION}
+
         container_name: ${VDK_DOCKER_ID}_${VDK_PMA_IMAGE_NAME}
         restart: always
         networks:

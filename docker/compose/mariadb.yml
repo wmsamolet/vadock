@@ -7,8 +7,12 @@ networks:
 
 services:
     mariadb:
-        image: ${VDK_MARIADB_IMAGE_NAME}:${VDK_MARIADB_IMAGE_VERSION}
-        build: ${VDK_MARIADB_IMAGE_PATH}
+        image: ${VDK_MARIADB_IMAGE_NAME}
+        build:
+            context: ${VDK_MARIADB_IMAGE_PATH}
+            args:
+                - version=${VDK_MARIADB_IMAGE_VERSION}
+
         container_name: ${VDK_DOCKER_ID}_${VDK_MARIADB_IMAGE_NAME}
         networks:
             - default

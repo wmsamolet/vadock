@@ -7,8 +7,12 @@ networks:
 
 services:
     nginx:
-        image: ${VDK_NGINX_IMAGE_NAME}:${VDK_NGINX_IMAGE_VERSION}
-        build: ${VDK_NGINX_IMAGE_PATH}
+        image: ${VDK_NGINX_IMAGE_NAME}
+        build:
+            context: ${VDK_NGINX_IMAGE_PATH}
+            args:
+                - version=${VDK_NGINX_IMAGE_VERSION}
+
         container_name: ${VDK_DOCKER_ID}_${VDK_NGINX_IMAGE_NAME}
         ports:
             - ${VDK_NGINX_PORT}:80

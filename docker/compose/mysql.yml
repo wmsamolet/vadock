@@ -6,9 +6,13 @@ networks:
         external: true
 
 services:
-    mariadb:
-        image: ${VDK_MYSQL_IMAGE_NAME}:${VDK_MYSQL_IMAGE_VERSION}
-        build: ${VDK_MYSQL_IMAGE_PATH}
+    mysql:
+        image: ${VDK_MYSQL_IMAGE_NAME}
+        build:
+            context: ${VDK_MYSQL_IMAGE_PATH}
+            args:
+                - version=${VDK_MYSQL_IMAGE_VERSION}
+
         container_name: ${VDK_DOCKER_ID}_${VDK_MYSQL_IMAGE_NAME}
         env_file:
             - ${VDK_DOCKER_HOST_PATH}/.env

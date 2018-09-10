@@ -26,8 +26,6 @@ fi
 info "VDK_PATH ${VDK_PATH}"
 ###################################################################################
 
-(cd ${VDK_PATH} && docker-compose -p ${VDK_PATH} -f ${VDK_PATH}/docker/compose/${VDK_COMPOSE_FILE}.yml down)
-
-(cd ${VDK_PATH} && docker volume prune -f)
+(cd ${VDK_PATH} && docker-compose -p ${VDK_PATH} -f ${VDK_PATH}/docker/compose/${VDK_COMPOSE_FILE}.yml down -v --rmi=all)
 
 (cd ${VDK_PATH} && rm -rf docker/logs/*)

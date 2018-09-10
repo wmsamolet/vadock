@@ -1,5 +1,6 @@
-# Для начала указываем исходный образ, он будет использован как основа
-FROM mysql
+ARG version
+
+FROM mysql:$version
 
 COPY conf.d/* /etc/mysql/conf.d/
 

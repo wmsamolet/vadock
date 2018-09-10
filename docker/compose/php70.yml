@@ -8,7 +8,11 @@ networks:
 services:
     php70:
         image: ${VDK_PHP70_IMAGE_NAME}
-        build: ${VDK_PHP70_IMAGE_PATH}
+        build:
+            context: ${VDK_PHP70_IMAGE_PATH}
+            args:
+                - version=${VDK_PHP70_IMAGE_VERSION}
+                
         container_name: ${VDK_DOCKER_ID}_${VDK_PHP70_IMAGE_NAME}
         command: faketime -f ${VDK_DOCKER_FAKETIME} php-fpm
         user: www-data

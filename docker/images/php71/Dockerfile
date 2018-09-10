@@ -1,5 +1,7 @@
+ARG version
+
 # Для начала указываем исходный образ, он будет использован как основа
-FROM php:7.1-fpm
+FROM php:$version
 
 # Доступные имена расширений PHP
 # Possible values for ext-name:
@@ -27,6 +29,7 @@ FROM php:7.1-fpm
 # В данном случае мы установим некоторые зависимости и модули PHP.
 # Для установки модулей используем команду docker-php-ext-install.
 # На каждый RUN создается новый слой в образе, поэтому рекомендуется объединять команды.
+
 RUN apt-get update && apt-get install -y \
         curl \
         wget \
@@ -51,29 +54,6 @@ RUN apt-get update && apt-get install -y \
 
 # Install APCu
 RUN pecl install apcu && echo "extension=apcu.so" > /usr/local/etc/php/conf.d/apcu.ini
-
-#RUN apt-get update && apt-get install -y \
-#		curl \
-#		wget \
-#		git \
-#		libssl-dev \
-#		libxml2-dev \
-#		libfreetype6-dev \
-#		libjpeg62-turbo-dev \
-#		libmcrypt-dev \
-#		libpng-dev \
-#		zlib1g-dev \
-#		libicu-dev \
-#		g++ \
-#		&& docker-php-ext-install -j$(nproc) json iconv mcrypt mbstring mysqli pdo_mysql zip \
-#		&& docker-php-ext-configure xml --with-libxml-dir=/usr/include/ \
-#		&& docker-php-ext-install xml \
-#		&& docker-php-ext-configure intl \
-#		&& docker-php-ext-install intl \
-#		&& docker-php-ext-configure curl \
-#		&& docker-php-ext-install -j$(nproc) curl \
-#		&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-#		&& docker-php-ext-install -j$(nproc) gd
 
 # Куда же без composer'а.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

@@ -6,11 +6,15 @@ networks:
         external: true
 
 services:
-    php70:
+    php56:
         image: ${VDK_PHP56_IMAGE_NAME}
-        build: ${VDK_PHP56_IMAGE_PATH}
-        container_name: ${VDK_DOCKER_ID}_${VDK_PHP56_IMAGE_NAME}
+        build:
+            context: ${VDK_PHP56_IMAGE_PATH}
+            args:
+                - version=${VDK_PHP56_IMAGE_VERSION}
+
         command: faketime -f ${VDK_DOCKER_FAKETIME} php-fpm
+        container_name: ${VDK_DOCKER_ID}_${VDK_PHP56_IMAGE_NAME}
         user: www-data
         networks:
             - default

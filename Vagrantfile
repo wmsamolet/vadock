@@ -152,10 +152,12 @@ Vagrant.configure(2) do |config|
     #
     # Docker init docker-compose.*.yml files
     #
-    options['docker_compose'].each do |composeName|
-        config.vm.provision 'shell', run: 'always' do |s|
-            s.path = "./docker/bin/init"
-            s.args = [composeName, "/vadock"]
+    if options['docker_compose']
+        options['docker_compose'].each do |composeName|
+            config.vm.provision 'shell', run: 'always' do |s|
+                s.path = "./docker/bin/init"
+                s.args = [composeName, "/vadock"]
+            end
         end
     end
 

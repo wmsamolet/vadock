@@ -1,2 +1,3 @@
-# Для начала указываем исходный образ, он будет использован как основа
-FROM nginx
+ARG version
+
+FROM nginx:$version
