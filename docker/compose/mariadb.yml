@@ -14,6 +14,7 @@ services:
                 - version=${VDK_MARIADB_IMAGE_VERSION}
 
         container_name: ${VDK_DOCKER_ID}_${VDK_MARIADB_IMAGE_NAME}
+        command: faketime -f ${VDK_DOCKER_FAKETIME} mysqld --user=root
         networks:
             - default
         ports:

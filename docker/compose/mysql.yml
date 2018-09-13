@@ -14,6 +14,7 @@ services:
                 - version=${VDK_MYSQL_IMAGE_VERSION}
 
         container_name: ${VDK_DOCKER_ID}_${VDK_MYSQL_IMAGE_NAME}
+        command: faketime -f ${VDK_DOCKER_FAKETIME} mysqld --user=root
         env_file:
             - ${VDK_DOCKER_HOST_PATH}/.env
         networks:
