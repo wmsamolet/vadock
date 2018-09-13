@@ -44,8 +44,9 @@ RUN apt-get update && apt-get install -y \
         libicu-dev \
         mysql-client \
         sshpass \
-        faketime \
-    && docker-php-ext-install -j$(nproc) exif bcmath iconv mbstring mysqli pdo_mysql zip \
+        faketime
+
+RUN docker-php-ext-install -j$(nproc) exif bcmath iconv mbstring mysqli pdo_mysql zip \
     && docker-php-ext-configure opcache --enable-opcache \
     && docker-php-ext-install opcache \
     && docker-php-ext-configure intl \
