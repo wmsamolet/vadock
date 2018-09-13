@@ -4,3 +4,4 @@
 /.env
 /vagrant.yml
 /data
+/docker/compose/*.custom.yml
