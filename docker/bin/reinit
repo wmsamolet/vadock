@@ -1,29 +1,52 @@
 #!/bin/bash
+
 function info {
-  echo "----------------------------------------------------------------------"
+  echo "----------------------------------------------------------------------------"
   echo " "
   echo "--> $1"
   echo " "
-  echo "----------------------------------------------------------------------"
+  echo "----------------------------------------------------------------------------"
 }
 
-info "DOCKER REINIT (NGINX + PHP) DETACHED"
+info "DOCKER INIT (UP + BUILD) ${1}"
 
-###################################################################################
-VDK_COMPOSE=""
+#---------------------------------------------------------------------------------#
+
+VDK_COMPOSE_FILE=""
+
 if [ ! -z "$1" ]
-  then VDK_COMPOSE=$1
+  then VDK_COMPOSE_FILE=$1
+  else
+    read -p "VDK_COMPOSE_FILE [example: php71]: " INPUT_VDK_COMPOSE_FILE
 fi
-info "VDK_COMPOSE ${VDK_COMPOSE}"
-###################################################################################
 
-###################################################################################
+if [ ! -z ${INPUT_VDK_COMPOSE_FILE} ]
+then
+    VDK_COMPOSE_FILE=${INPUT_VDK_COMPOSE_FILE}
+fi
+
+echo "[VDK_COMPOSE_FILE]: ${VDK_COMPOSE_FILE}"
+echo
+
+#---------------------------------------------------------------------------------#
+
 VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
+
 if [ ! -z "$2" ]
   then VDK_PATH=$2
+  else
+    read -p "VDK_PATH [${VDK_PATH}]: " INPUT_VDK_PATH
 fi
-info "VDK_PATH ${VDK_PATH}"
-###################################################################################
+
+if [ ! -z ${INPUT_VDK_PATH} ]
+then
+    VDK_PATH=${INPUT_VDK_PATH}
+fi
+
+echo "[VDK_PATH]: ${VDK_PATH}"
+echo
+
+#---------------------------------------------------------------------------------#
 
 (cd ${VDK_PATH} && docker-compose down)
 (cd ${VDK_PATH} && docker volume prune -f)
