@@ -24,4 +24,4 @@ services:
             - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
             - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
             - ${VDK_DOCKER_HOST_PATH}/hosts:/etc/nginx/conf.d
-            - ${VDK_DOCKER_HOST_PATH}/logs:/var/log/nginx
+            - ${VDK_DOCKER_HOST_PATH}/logs/nginx:/var/log/nginx
