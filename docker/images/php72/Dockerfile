@@ -55,7 +55,7 @@ RUN docker-php-ext-install -j$(nproc) exif bcmath iconv mbstring mysqli pdo_mysq
     && docker-php-ext-install -j$(nproc) gd
 
 # Install APCu
-RUN pecl install apcu && echo "extension=apcu.so" > /usr/local/etc/php/conf.d/apcu.ini
+#RUN pecl install apcu && echo "extension=apcu.so" > /usr/local/etc/php/conf.d/apcu.ini
 
 # Куда же без composer'а.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
