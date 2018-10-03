@@ -11,8 +11,6 @@ services:
         ports:
             - ${VDK_NGINX_PORT}:80
         network_mode: host
-        #networks:
-        #    - default
         env_file:
             - ${VDK_DOCKER_HOST_PATH}/.env
         volumes:
