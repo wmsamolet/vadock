@@ -12,10 +12,12 @@ services:
             context: ${VDK_PHP56_IMAGE_PATH}
             args:
                 - version=${VDK_PHP56_IMAGE_VERSION}
-
+                
+        container_name: ${VDK_DOCKER_ID}_${VDK_PHP56_IMAGE_NAME}        
         command: faketime -f ${VDK_DOCKER_FAKETIME} php-fpm
-        container_name: ${VDK_DOCKER_ID}_${VDK_PHP56_IMAGE_NAME}
         user: www-data
+        ports:
+            - ${VDK_PHP56_PORT}:9000
         networks:
             - default
         env_file:

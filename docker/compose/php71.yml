@@ -16,6 +16,8 @@ services:
         container_name: ${VDK_DOCKER_ID}_${VDK_PHP71_IMAGE_NAME}
         command: faketime -f ${VDK_DOCKER_FAKETIME} php-fpm
         user: www-data
+        ports:
+            - ${VDK_PHP71_PORT}:9000
         networks:
             - default
         env_file:
