@@ -3,14 +3,14 @@ version: "3.5"
 services:
     nginx:
         image: ${VDK_NGINX_IMAGE_NAME}
+        container_name: ${VDK_DOCKER_ID}_${VDK_NGINX_IMAGE_NAME}
         build:
             context: ${VDK_NGINX_IMAGE_PATH}
             args:
                 - version=${VDK_NGINX_IMAGE_VERSION}
-        container_name: ${VDK_DOCKER_ID}_${VDK_NGINX_IMAGE_NAME}
+        network_mode: host
         ports:
             - ${VDK_NGINX_PORT}:80
-        network_mode: host
         env_file:
             - ${VDK_DOCKER_HOST_PATH}/.env
         volumes:

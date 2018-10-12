@@ -8,20 +8,18 @@ networks:
 services:
     mariadb:
         image: ${VDK_MARIADB_IMAGE_NAME}
+        container_name: ${VDK_DOCKER_ID}_${VDK_MARIADB_IMAGE_NAME}
+        #command: faketime -m -f ${VDK_DOCKER_FAKETIME} mysqld --user=mysql
+        command: mysqld --user=mysql
         build:
             context: ${VDK_MARIADB_IMAGE_PATH}
             args:
                 - version=${VDK_MARIADB_IMAGE_VERSION}
-
-        container_name: ${VDK_DOCKER_ID}_${VDK_MARIADB_IMAGE_NAME}
-        command: faketime -f ${VDK_DOCKER_FAKETIME} mysqld --user=root
+        env_file:
+            - ${VDK_DOCKER_HOST_PATH}/.env
         networks:
             - default
         ports:
             - ${VDK_MARIADB_PORT}:3306
-        env_file:
-            - ${VDK_DOCKER_HOST_PATH}/.env
         volumes:
             - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
-            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
-            - ${VDK_DOCKER_HOST_PATH}/data/mariadb:/var/local

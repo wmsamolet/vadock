@@ -48,4 +48,5 @@ echo
 
 #---------------------------------------------------------------------------------#
 
-(cd ${VDK_PATH} && docker-compose -p ${VDK_PATH} -f ${VDK_PATH}/docker/compose/${VDK_COMPOSE_FILE}.yml up -d --build --force-recreate)
+(cd ${VDK_PATH} && docker-compose -p ${VDK_PATH} -f ${VDK_PATH}/docker/compose/${VDK_COMPOSE_FILE}.yml build)
+(cd ${VDK_PATH} && docker-compose -p ${VDK_PATH} -f ${VDK_PATH}/docker/compose/${VDK_COMPOSE_FILE}.yml up -d --force-recreate)

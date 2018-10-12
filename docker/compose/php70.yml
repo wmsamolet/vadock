@@ -8,20 +8,19 @@ networks:
 services:
     php70:
         image: ${VDK_PHP70_IMAGE_NAME}
+        container_name: ${VDK_DOCKER_ID}_${VDK_PHP70_IMAGE_NAME}
+        command: faketime -f ${VDK_DOCKER_FAKETIME} php-fpm
         build:
             context: ${VDK_PHP70_IMAGE_PATH}
             args:
                 - version=${VDK_PHP70_IMAGE_VERSION}
-                
-        container_name: ${VDK_DOCKER_ID}_${VDK_PHP70_IMAGE_NAME}
-        command: faketime -f ${VDK_DOCKER_FAKETIME} php-fpm
-        user: www-data
-        ports:
-            - ${VDK_PHP70_PORT}:9000
-        networks:
-            - default
         env_file:
             - ${VDK_DOCKER_HOST_PATH}/.env
+        networks:
+            - default
+        ports:
+            - ${VDK_PHP70_PORT}:9000
+        user: www-data
         volumes:
             - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
             - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}

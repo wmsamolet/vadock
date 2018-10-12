@@ -1,5 +1,6 @@
-# Для начала указываем исходный образ, он будет использован как основа
-FROM mariadb
+ARG version
+
+FROM mariadb:$version
 
 COPY mariadb.conf.d/* /etc/mysql/mariadb.conf.d/
 COPY conf.d/* /etc/mysql/conf.d/
