@@ -34,7 +34,7 @@ Vagrant.configure(2) do |config|
     #
     # select the box
     #
-    config.vm.box = "debian/stretch64"
+    config.vm.box = options['box']
 
     #
     # Should we ask about box updates?
@@ -93,9 +93,15 @@ Vagrant.configure(2) do |config|
     #
     # Shared folders
     #
-    config.vm.synced_folder '.', '/vagrant', disabled: true
-    config.vm.synced_folder '.', '/vadock', owner: 'vagrant', group: 'vagrant'
-    config.vm.synced_folder options['host_www_path'], '/www', owner: 'vagrant', group: 'vagrant'
+    #config.vm.synced_folder '.', '/vagrant', disabled: true
+
+    if options['share_type'] == 'nfs'
+        config.vm.synced_folder options['host_vadock_path'], '/vadock', type: options['share_type']
+        config.vm.synced_folder options['host_www_path'], '/www', type: options['share_type']
+    else
+        config.vm.synced_folder options['host_vadock_path'], '/vadock', owner: 'vagrant', group: 'vagrant', type: options['share_type']
+        config.vm.synced_folder options['host_www_path'], '/www', owner: 'vagrant', group: 'vagrant', type: options['share_type']
+    end
 
     #
     # Hostmanager config (hosts file)

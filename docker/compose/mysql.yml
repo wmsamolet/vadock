@@ -9,7 +9,7 @@ services:
     mysql:
         image: ${VDK_MYSQL_IMAGE_NAME}
         container_name: ${VDK_DOCKER_ID}_${VDK_MYSQL_IMAGE_NAME}
-        command: faketime -f ${VDK_DOCKER_FAKETIME} mysqld --user=root
+        command: mysqld --user=root
         build:
             context: ${VDK_MYSQL_IMAGE_PATH}
             args:
