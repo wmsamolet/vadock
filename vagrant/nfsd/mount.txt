@@ -1,0 +1,2 @@
+D:\projects\bogacho.ru\vadock\new > /vadock
+D:\projects\bogacho.ru\www > /www
