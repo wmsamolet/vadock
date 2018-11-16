@@ -1,17 +1,17 @@
 #!/bin/bash
 
 function info {
-  echo "----------------------------------------------------------------------------"
-  echo " "
-  echo -e "  $1"
-  echo " "
-  echo "----------------------------------------------------------------------------"
+  echo "--------------------------------------------------------------------------------------"
+  echo "-"
+  echo -e "-  $1"
+  echo "-"
+  echo "--------------------------------------------------------------------------------------"
   echo
 }
 
 echo
 
-#---------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------#
 
 ACTION=""
 
@@ -19,6 +19,7 @@ if [ ! -z "$1" ]
   then ACTION=$1
 else
     read -p "Enter command [example: create]: " INPUT
+    echo
 fi
 
 if [ ! -z ${INPUT} ]
@@ -32,9 +33,7 @@ then
     exit 1
 fi
 
-echo
-
-#---------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------#
 
 PROJECT_NAME="new-project"
 
@@ -42,6 +41,7 @@ if [ ! -z "$2" ]
   then PROJECT_NAME=$2
 else
     read -p "Enter project name [default: new-project]: " INPUT
+    echo
 fi
 
 if [ ! -z ${INPUT} ]
@@ -49,9 +49,7 @@ then
     PROJECT_NAME=${INPUT}
 fi
 
-echo
-
-#---------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------#
 
 VDK_PATH="$( cd "$(dirname "$0")"/../ ; pwd -P )"
 
@@ -59,7 +57,7 @@ PROJECT_PATH=${VDK_PATH}/config/${PROJECT_NAME}
 
 DOCKER_BIN_PATH=${VDK_PATH}/docker/bin
 
-#---------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------#
 
 if [ "$ACTION" == "create" ]
 then
@@ -68,7 +66,41 @@ then
     info "Project \"${1}\" created successful! \n  Please customize config files by path: ${PROJECT_PATH}"
 fi
 
-#---------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------#
+
+if [ "$ACTION" == "configure" ]
+then
+    info "Configure project \"${PROJECT_NAME}\""
+
+    source ${PROJECT_PATH}/.env
+
+    VDK_ENV_S[0]="VDK_HOST_PATH"
+    VDK_ENV_S[1]="VDK_HOST_WWW_PATH"
+    VDK_ENV_S[2]="VDK_DOCKER_WWW_PATH"
+    VDK_ENV_S[3]="VDK_NETWORK_NAME"
+    VDK_ENV_S[4]="VDK_COMPOSE_LIST"
+
+    for VDK_ENV_NAME in "${VDK_ENV_S[@]}"; do
+
+        VDK_ENV_VAR="$VDK_ENV_NAME"
+        VDK_ENV_VALUE=${!VDK_ENV_VAR}
+
+        read -p "Enter valuer for \"${VDK_ENV_NAME}\" [default: ${VDK_ENV_VALUE}]: " VDK_ENV_VALUE_INPUT
+
+        if [ ! -z ${VDK_ENV_VALUE_INPUT} ]
+        then
+            VDK_ENV_VALUE=${VDK_ENV_VALUE_INPUT}
+        fi
+
+        search="${VDK_ENV_NAME}=.*"
+        replace="${VDK_ENV_NAME}=${VDK_ENV_VALUE}"
+        sed -i -- "s|${search}|${replace}|g" ${PROJECT_PATH}/.env
+    done
+
+    echo
+fi
+
+#---------------------------------------------------------------------------------------------#
 
 if [ ${ACTION} == "init" ] || [ ${ACTION} == "deinit" ]
 then
@@ -93,4 +125,7 @@ then
     done
 fi
 
-#---------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------#
+
+echo "----------------------------------------------------------------------------------------"
+echo
