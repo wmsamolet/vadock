@@ -10,13 +10,13 @@ services:
         container_name: mysql
         command: mysqld --user=root
         build:
-            context: ./../../../docker/images/mysql
+            context: ../../../../docker/images/mysql
             args:
                 - version=latest
         env_file:
-            - ./../.env
+            - ../../.env
         ports:
             - 3306:3306
         volumes:
-            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
+            - ${VDK_HOST_WWW_PATH}:${VDK_DOCKER_WWW_PATH}
             - ${VDK_HOST_PATH}/data/mysql:/var/local

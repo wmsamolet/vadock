@@ -11,13 +11,14 @@ services:
         container_name: php
         command: faketime -f ${VDK_DOCKER_FAKETIME} php-fpm
         build:
-            context: ./../../../docker/images/php72
+            context: ../../../../docker/images/php72
             args:
                 - version=7.2-fpm
+                - php_confd_path=${VDK_HOST_PATH}/config/${VDK_PROJECT_NAME}/php/7.2/*
         env_file:
-            - ./../.env
+            - ../../.env
         ports:
             - 9000:9000
         user: www-data
         volumes:
-            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
+            - ${VDK_HOST_WWW_PATH}:${VDK_DOCKER_WWW_PATH}

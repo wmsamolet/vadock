@@ -12,20 +12,20 @@ info "DOCKER DEINIT"
 
 #---------------------------------------------------------------------------------#
 
-COMPOSE_PROJECT="default"
+PROJECT_NAME="default"
 
 if [ ! -z "$1" ]
-  then COMPOSE_PROJECT=$1
+  then PROJECT_NAME=$1
   else
-    read -p "COMPOSE_PROJECT [example: default]: " INPUT_COMPOSE_PROJECT
+    read -p "PROJECT_NAME [example: default]: " INPUT_PROJECT_NAME
 fi
 
-if [ ! -z ${INPUT_COMPOSE_PROJECT} ]
+if [ ! -z ${INPUT_PROJECT_NAME} ]
 then
-    COMPOSE_PROJECT=${INPUT_COMPOSE_PROJECT}
+    PROJECT_NAME=${INPUT_PROJECT_NAME}
 fi
 
-echo "[COMPOSE_PROJECT]: ${COMPOSE_PROJECT}"
+echo "[PROJECT_NAME]: ${PROJECT_NAME}"
 echo
 
 #---------------------------------------------------------------------------------#
@@ -49,8 +49,8 @@ echo
 #---------------------------------------------------------------------------------#
 
 VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
-COMPOSE_PROJECT_PATH=${VDK_PATH}/config/${COMPOSE_PROJECT}
+PROJECT_NAME_PATH=${VDK_PATH}/config/${PROJECT_NAME}
 
 #---------------------------------------------------------------------------------#
 
-(cd ${COMPOSE_PROJECT_PATH} && docker-compose -p ${COMPOSE_PROJECT} -f ${COMPOSE_PROJECT_PATH}/compose/${COMPOSE_FILE}.yml down -v --rmi=all)
+(cd ${PROJECT_NAME_PATH} && env VDK_PROJECT_NAME=${PROJECT_NAME} docker-compose -p ${PROJECT_NAME} -f ${PROJECT_NAME_PATH}/docker/compose/${COMPOSE_FILE}.yml down -v --rmi=all)

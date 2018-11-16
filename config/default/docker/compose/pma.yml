@@ -14,7 +14,7 @@ services:
                 - version=${VDK_PMA_IMAGE_VERSION}
         restart: always
         env_file:
-            - ./../.env
+            - ../../.env
         networks:
             - default
         ports:

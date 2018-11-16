@@ -11,10 +11,10 @@ services:
         #command: faketime -m -f ${VDK_DOCKER_FAKETIME} mysqld --user=mysql
         command: mysqld --user=mysql
         build:
-            context: ./../../../docker/images/mariadb
+            context: ../../../../docker/images/mariadb
             args:
                 - version=latest
         env_file:
-            - ./../.env
+            - ../../.env
         ports:
             - 3307:3306

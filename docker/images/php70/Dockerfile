@@ -1,4 +1,5 @@
 ARG version
+ARG php_confd_path
 
 FROM php:$version
 
@@ -60,7 +61,7 @@ RUN pecl install apcu && echo "extension=apcu.so" > /usr/local/etc/php/conf.d/ap
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Добавим свой php.ini, можем в нем определять свои значения конфига
-ADD conf.d/* /usr/local/etc/php/conf.d/
+ADD $php_confd_path /usr/local/etc/php/conf.d/
 
 # Указываем рабочую директорию для PHP
 WORKDIR /host
