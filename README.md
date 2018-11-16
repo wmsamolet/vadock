@@ -18,11 +18,6 @@ vagrant plugin install vagrant-hostmanager
 #### Step 5: Start virtual machine:
 ```bash
 vagrant up
-
-docker-machine create --driver generic --generic-ip-address=10.0.0.2 --generic-ssh-key ./ssh/vagrant --generic-ssh-user vagrant [your-machine_name-from-vagrant.yml]
-
-vagrant reload
-
 vagrant ssh
 ```
 
