@@ -1,3 +1,4 @@
+/bin/* text=auto eol=lf
 /docker/bin/* text=auto eol=lf
 /docker/export/* text=auto eol=lf
 /vagrant/provision/* text=auto eol=lf

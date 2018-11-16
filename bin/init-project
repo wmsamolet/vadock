@@ -1,0 +1,43 @@
+#!/bin/bash
+
+function info {
+  echo "----------------------------------------------------------------------------"
+  echo " "
+  echo -e "  $1"
+  echo " "
+  echo "----------------------------------------------------------------------------"
+  echo
+}
+
+echo
+
+#---------------------------------------------------------------------------------#
+
+PROJECT_NAME="new-project"
+
+if [ ! -z "$1" ]
+  then PROJECT_NAME=$1
+else
+    read -p "Enter project name [default: new-project]: " INPUT
+fi
+
+if [ ! -z ${INPUT} ]
+then
+    PROJECT_NAME=${INPUT}
+fi
+
+echo "[PROJECT_NAME]: ${PROJECT_NAME}"
+echo
+
+#---------------------------------------------------------------------------------#
+
+VDK_PATH="$( cd "$(dirname "$0")"/../ ; pwd -P )"
+PROJECT_PATH=${VDK_PATH}/config/${PROJECT_NAME}
+
+echo
+
+#---------------------------------------------------------------------------------#
+
+cp -r ${VDK_PATH}/config/default ${PROJECT_PATH}
+
+info "Project \"${1}\" created successful! \n  Please customize config files by path: ${PROJECT_PATH}"
