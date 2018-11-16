@@ -68,20 +68,6 @@ echo
 
 VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
 
-if [ ! -z "$4" ]
-  then VDK_PATH=$4
-  else
-    read -p "VDK_PATH [${VDK_PATH}]: " READ_VDK_PATH
-fi
-
-if [ ! -z ${READ_VDK_PATH} ]
-then
-    VDK_PATH=${READ_VDK_PATH}
-fi
-
-echo "[VDK_PATH]: ${VDK_PATH}"
-echo
-
 #---------------------------------------------------------------------------------#
 
 info "Set image ${VDK_CONTAINER_NAME}:${BIN_NAME_FROM} to /usr/bin/${BIN_NAME_TO}"

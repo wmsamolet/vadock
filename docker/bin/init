@@ -8,45 +8,47 @@ function info {
   echo "----------------------------------------------------------------------------"
 }
 
-info "DOCKER INIT (UP + BUILD) ${1}"
+#---------------------------------------------------------------------------------#
+
+COMPOSE_PROJECT="default"
+
+if [ ! -z "$1" ]
+  then COMPOSE_PROJECT=$1
+  else
+    read -p "COMPOSE_PROJECT [example: default]: " INPUT_COMPOSE_PROJECT
+fi
+
+if [ ! -z ${INPUT_COMPOSE_PROJECT} ]
+then
+    COMPOSE_PROJECT=${INPUT_COMPOSE_PROJECT}
+fi
+
+echo
 
 #---------------------------------------------------------------------------------#
 
-VDK_COMPOSE_FILE=""
+COMPOSE_FILE="php"
 
-if [ ! -z "$1" ]
-  then VDK_COMPOSE_FILE=$1
+if [ ! -z "$2" ]
+  then COMPOSE_FILE=$2
   else
-    read -p "VDK_COMPOSE_FILE [example: php71]: " INPUT_VDK_COMPOSE_FILE
+    read -p "COMPOSE_FILE [example: php]: " INPUT_COMPOSE_FILE
 fi
 
-if [ ! -z ${INPUT_VDK_COMPOSE_FILE} ]
+if [ ! -z ${INPUT_COMPOSE_FILE} ]
 then
-    VDK_COMPOSE_FILE=${INPUT_VDK_COMPOSE_FILE}
+    COMPOSE_FILE=${INPUT_COMPOSE_FILE}
 fi
 
-echo "[VDK_COMPOSE_FILE]: ${VDK_COMPOSE_FILE}"
 echo
 
 #---------------------------------------------------------------------------------#
 
 VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
-
-if [ ! -z "$2" ]
-  then VDK_PATH=$2
-  else
-    read -p "VDK_PATH [${VDK_PATH}]: " INPUT_VDK_PATH
-fi
-
-if [ ! -z ${INPUT_VDK_PATH} ]
-then
-    VDK_PATH=${INPUT_VDK_PATH}
-fi
-
-echo "[VDK_PATH]: ${VDK_PATH}"
-echo
+COMPOSE_PROJECT_PATH=${VDK_PATH}/config/${COMPOSE_PROJECT}
 
 #---------------------------------------------------------------------------------#
 
-(cd ${VDK_PATH} && docker-compose -p ${VDK_PATH} -f ${VDK_PATH}/docker/compose/${VDK_COMPOSE_FILE}.yml build)
-(cd ${VDK_PATH} && docker-compose -p ${VDK_PATH} -f ${VDK_PATH}/docker/compose/${VDK_COMPOSE_FILE}.yml up -d --force-recreate)
+info "DOCKER INIT (UP + BUILD) project \"${COMPOSE_PROJECT}\" compose file \"${COMPOSE_FILE}.yml\""
+
+(cd ${COMPOSE_PROJECT_PATH} && docker-compose -p ${COMPOSE_PROJECT} -f ${COMPOSE_PROJECT_PATH}/compose/${COMPOSE_FILE}.yml up -d --build --force-recreate)

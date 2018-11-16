@@ -10,20 +10,47 @@ function info {
 
 info "DOCKER DEINIT"
 
-###################################################################################
-VDK_COMPOSE_FILE=""
+#---------------------------------------------------------------------------------#
+
+COMPOSE_PROJECT="default"
+
 if [ ! -z "$1" ]
-  then VDK_COMPOSE_FILE=$1
+  then COMPOSE_PROJECT=$1
+  else
+    read -p "COMPOSE_PROJECT [example: default]: " INPUT_COMPOSE_PROJECT
 fi
-info "VDK_COMPOSE_FILE ${VDK_COMPOSE_FILE}"
-###################################################################################
 
-###################################################################################
-VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
+if [ ! -z ${INPUT_COMPOSE_PROJECT} ]
+then
+    COMPOSE_PROJECT=${INPUT_COMPOSE_PROJECT}
+fi
+
+echo "[COMPOSE_PROJECT]: ${COMPOSE_PROJECT}"
+echo
+
+#---------------------------------------------------------------------------------#
+
+COMPOSE_FILE=""
+
 if [ ! -z "$2" ]
-  then VDK_PATH=$2
+  then COMPOSE_FILE=$2
+  else
+    read -p "COMPOSE_FILE [example: php]: " INPUT_COMPOSE_FILE
 fi
-info "VDK_PATH ${VDK_PATH}"
-###################################################################################
 
-(cd ${VDK_PATH} && docker-compose -p ${VDK_PATH} -f ${VDK_PATH}/docker/compose/${VDK_COMPOSE_FILE}.yml down -v --rmi=all)
+if [ ! -z ${INPUT_COMPOSE_FILE} ]
+then
+    COMPOSE_FILE=${INPUT_COMPOSE_FILE}
+fi
+
+echo "[COMPOSE_FILE]: ${COMPOSE_FILE}"
+echo
+
+#---------------------------------------------------------------------------------#
+
+VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
+COMPOSE_PROJECT_PATH=${VDK_PATH}/config/${COMPOSE_PROJECT}
+
+#---------------------------------------------------------------------------------#
+
+(cd ${COMPOSE_PROJECT_PATH} && docker-compose -p ${COMPOSE_PROJECT} -f ${COMPOSE_PROJECT_PATH}/compose/${COMPOSE_FILE}.yml down -v --rmi=all)

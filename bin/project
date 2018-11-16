@@ -1,0 +1,96 @@
+#!/bin/bash
+
+function info {
+  echo "----------------------------------------------------------------------------"
+  echo " "
+  echo -e "  $1"
+  echo " "
+  echo "----------------------------------------------------------------------------"
+  echo
+}
+
+echo
+
+#---------------------------------------------------------------------------------#
+
+ACTION=""
+
+if [ ! -z "$1" ]
+  then ACTION=$1
+else
+    read -p "Enter command [example: create]: " INPUT
+fi
+
+if [ ! -z ${INPUT} ]
+then
+    ACTION=${INPUT}
+fi
+
+if [ ${ACTION} == "" ]
+then
+    echo "ERROR: Please enter action name"
+    exit 1
+fi
+
+echo
+
+#---------------------------------------------------------------------------------#
+
+PROJECT_NAME="new-project"
+
+if [ ! -z "$2" ]
+  then PROJECT_NAME=$2
+else
+    read -p "Enter project name [default: new-project]: " INPUT
+fi
+
+if [ ! -z ${INPUT} ]
+then
+    PROJECT_NAME=${INPUT}
+fi
+
+echo
+
+#---------------------------------------------------------------------------------#
+
+VDK_PATH="$( cd "$(dirname "$0")"/../ ; pwd -P )"
+
+PROJECT_PATH=${VDK_PATH}/config/${PROJECT_NAME}
+
+DOCKER_BIN_PATH=${VDK_PATH}/docker/bin
+
+#---------------------------------------------------------------------------------#
+
+if [ "$ACTION" == "create" ]
+then
+    cp -r ${VDK_PATH}/config/default ${PROJECT_PATH}
+
+    info "Project \"${1}\" created successful! \n  Please customize config files by path: ${PROJECT_PATH}"
+fi
+
+#---------------------------------------------------------------------------------#
+
+if [ ${ACTION} == "init" ] || [ ${ACTION} == "deinit" ]
+then
+    source ${PROJECT_PATH}/.env
+
+    #
+    # Init network
+    #
+
+    ${DOCKER_BIN_PATH}/init-network ${VDK_NETWORK_NAME}
+
+    #
+    # Init project compose files
+    #
+
+    IFS=',' read -ra COMPOSE_FILE_NAMES <<< "${VDK_COMPOSE_LIST}"
+    for COMPOSE_FILE_NAME in "${COMPOSE_FILE_NAMES[@]}"; do
+
+        #echo "${DOCKER_BIN_PATH}/${ACTION} ${PROJECT_NAME} ${COMPOSE_FILE_NAME}"
+
+        ${DOCKER_BIN_PATH}/init ${PROJECT_NAME} ${COMPOSE_FILE_NAME}
+    done
+fi
+
+#---------------------------------------------------------------------------------#

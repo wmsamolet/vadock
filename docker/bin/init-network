@@ -10,29 +10,28 @@ function info {
 
 #---------------------------------------------------------------------------------#
 
-INIT_NETWORK_NAME=${VDK_NETWORK_NAME}
+NETWORK_NAME="vdk_net"
 
 if [ ! -z "$1" ]
-  then INIT_NETWORK_NAME=$1
+  then NETWORK_NAME=$1
+  else
+    read -p "Enter network name [default: ${NETWORK_NAME}]: " INPUT
 fi
+
+if [ ! -z ${INPUT} ]
+then
+    NETWORK_NAME=${INPUT}
+fi
+
+echo
 
 #---------------------------------------------------------------------------------#
 
 VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
 
-if [ ! -z "$2" ]
-  then VDK_PATH=$2
-fi
-
 #---------------------------------------------------------------------------------#
 
-source ${VDK_PATH}/.env
+info "DOCKER INIT NETWORK ${NETWORK_NAME}"
 
-if [ -z "$INIT_NETWORK_NAME" ]
-  then INIT_NETWORK_NAME=${VDK_NETWORK_NAME}
-fi
-
-info "DOCKER INIT NETWORK ${INIT_NETWORK_NAME} (${VDK_PATH}/.env)"
-
-docker network rm ${INIT_NETWORK_NAME}
-docker network create ${INIT_NETWORK_NAME}
+docker network rm ${NETWORK_NAME}
+docker network create ${NETWORK_NAME}

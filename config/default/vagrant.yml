@@ -32,16 +32,6 @@ es_memory: 512m
 
 # Shared folders type (nfs, rsync, ...)
 share_type: vbox
-
-# Vagrant up docker-compose
-docker_compose:
-  - php56
-  - php70
-  - php71
-  - php72
-  - nginx
-  - mariadb
-  - pma
   
 # HOST MySQL Port
 host_mysql_port: 3307

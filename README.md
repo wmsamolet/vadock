@@ -1,20 +1,49 @@
 VaDock = Vagrant + Docker
 -----------------
-Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 
-Install [Vagrant](https://www.vagrantup.com/downloads.html) the last version
+# Installation (vagrant)
 
-Install Vagrant pluging's:
+#### Step 1: Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+
+#### Step 2: Install [Vagrant](https://www.vagrantup.com/downloads.html) the last version
+
+#### Step 3: Install Vagrant pluging's:
 ```bash
 vagrant plugin install vagrant-vbguest
 vagrant plugin install vagrant-hostmanager
 ```
 
-Start virtual machine:
+#### Step 4: Customize config's in /you/project/dir/config/YOU_PROJECT_NAME/vagrant.yml
+
+#### Step 5: Start virtual machine:
 ```bash
 vagrant up
 
 docker-machine create --driver generic --generic-ip-address=10.0.0.2 --generic-ssh-key ./ssh/vagrant --generic-ssh-user vagrant [your-machine_name-from-vagrant.yml]
 
 vagrant reload
+
+vagrant ssh
+```
+
+# Installation (docker)
+
+#### Step 1: Clone this repository:
+
+```bash
+$ git clone https://github.com/wmsamolet/vadock.git /you/project/dir/
+```
+
+#### Step 2: Create project config from default
+
+```bash
+$ cd /you/project/dir/
+$ ./bin/project create YOU_PROJECT_NAME
+```
+
+#### Step 3: Customize config's in /you/project/dir/config/YOU_PROJECT_NAME/*
+
+#### Step 4: Init project 
+```bash
+$ ./bin/project init YOU_PROJECT_NAME
 ```

@@ -7,20 +7,17 @@ networks:
 
 services:
     nginx:
-        image: ${VDK_NGINX_IMAGE_NAME}
-        container_name: ${VDK_NGINX_IMAGE_NAME}
+        container_name: nginx
         build:
-            context: ${VDK_NGINX_IMAGE_PATH}
+            context: ./../../../docker/images/nginx
             args:
-                - version=${VDK_NGINX_IMAGE_VERSION}
-        networks:
-            - default
+                - version=latest
+                - nginx_conf_path=${VDK_HOST_PATH}/config/default/nginx.conf
         ports:
-            - ${VDK_NGINX_PORT}:80
+            - 80:80
         env_file:
-            - ${VDK_DOCKER_HOST_PATH}/.env
+            - ./../.env
         volumes:
-            - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
             - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
-            - ${VDK_DOCKER_HOST_PATH}/hosts:/etc/nginx/conf.d
-            - ${VDK_DOCKER_HOST_PATH}/logs/nginx:/var/log/nginx
+            - ./../hosts:/etc/nginx/conf.d
+            - ./../../../logs/nginx:/var/log/nginx
