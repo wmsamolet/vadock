@@ -1,0 +1,25 @@
+version: "3.5"
+
+networks:
+    default:
+        name: ${VDK_NETWORK_NAME}
+        external: true
+
+services:
+    mariadb:
+        image: ${VDK_MARIADB_IMAGE_NAME}
+        container_name: ${VDK_MARIADB_IMAGE_NAME}
+        #command: faketime -m -f ${VDK_DOCKER_FAKETIME} mysqld --user=mysql
+        command: mysqld --user=mysql
+        build:
+            context: ${VDK_MARIADB_IMAGE_PATH}
+            args:
+                - version=${VDK_MARIADB_IMAGE_VERSION}
+        env_file:
+            - ${VDK_DOCKER_HOST_PATH}/.env
+        networks:
+            - default
+        ports:
+            - ${VDK_MARIADB_PORT}:3306
+        volumes:
+            - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}

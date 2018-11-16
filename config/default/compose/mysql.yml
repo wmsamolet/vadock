@@ -1,0 +1,26 @@
+version: "3.5"
+
+networks:
+    default:
+        name: ${VDK_NETWORK_NAME}
+        external: true
+
+services:
+    mysql:
+        image: ${VDK_MYSQL_IMAGE_NAME}
+        container_name: ${VDK_MYSQL_IMAGE_NAME}
+        command: mysqld --user=root
+        build:
+            context: ${VDK_MYSQL_IMAGE_PATH}
+            args:
+                - version=${VDK_MYSQL_IMAGE_VERSION}
+        env_file:
+            - ${VDK_DOCKER_HOST_PATH}/.env
+        networks:
+            - default
+        ports:
+            - ${VDK_MYSQL_PORT}:3306
+        volumes:
+            - ${VDK_DOCKER_HOST_PATH}:${VDK_DOCKER_GUEST_PATH}
+            - ${VDK_DOCKER_HOST_WWW_PATH}:${VDK_DOCKER_GUEST_WWW_PATH}
+            - ${VDK_DOCKER_HOST_PATH}/data/mysql:/var/local
