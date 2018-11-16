@@ -31,19 +31,19 @@ vagrant ssh
 #### Step 1: Clone this repository:
 
 ```bash
-$ git clone https://github.com/wmsamolet/vadock.git /you/project/dir/
+git clone https://github.com/wmsamolet/vadock.git /you/project/dir/
 ```
 
 #### Step 2: Create project config from default
 
 ```bash
-$ cd /you/project/dir/
-$ ./bin/project create YOU_PROJECT_NAME
+cd /you/project/dir/
+./bin/project create YOU_PROJECT_NAME
 ```
 
 #### Step 3: Customize config's in /you/project/dir/config/YOU_PROJECT_NAME/*
 
 #### Step 4: Init project 
 ```bash
-$ ./bin/project init YOU_PROJECT_NAME
+./bin/project init YOU_PROJECT_NAME
 ```
