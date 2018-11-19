@@ -137,13 +137,19 @@ then
     # Init project compose files
     #
 
-    IFS=',' read -ra COMPOSE_FILE_NAMES <<< "${VDK_COMPOSE_LIST}"
-    for COMPOSE_FILE_NAME in "${COMPOSE_FILE_NAMES[@]}"; do
-
-        #echo "${DOCKER_BIN_PATH}/${ACTION} ${PROJECT_NAME} ${COMPOSE_FILE_NAME}"
-
+    if [ ! -z "$3" ]
+    then
+        COMPOSE_FILE_NAME=$3
         ${DOCKER_BIN_PATH}/${ACTION_BIN} ${PROJECT_NAME} ${COMPOSE_FILE_NAME}
-    done
+    else
+        IFS=',' read -ra COMPOSE_FILE_NAMES <<< "${VDK_COMPOSE_LIST}"
+        for COMPOSE_FILE_NAME in "${COMPOSE_FILE_NAMES[@]}"; do
+
+            #echo "${DOCKER_BIN_PATH}/${ACTION} ${PROJECT_NAME} ${COMPOSE_FILE_NAME}"
+
+            ${DOCKER_BIN_PATH}/${ACTION_BIN} ${PROJECT_NAME} ${COMPOSE_FILE_NAME}
+        done
+    fi
 fi
 
 #---------------------------------------------------------------------------------------------#

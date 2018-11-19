@@ -21,4 +21,4 @@ services:
         volumes:
             - ${VDK_HOST_WWW_PATH}:${VDK_DOCKER_WWW_PATH}
             - ./../nginx/hosts:/etc/nginx/conf.d
-            - ./../logs:/var/log/nginx
+            - ./../nginx/logs:/var/log/nginx
