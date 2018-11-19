@@ -71,7 +71,7 @@ DOCKER_BIN_PATH=${VDK_PATH}/docker/bin
 
 if [ ${ACTION} == "create" ] || [ ${ACTION} == "build" ]
 then
-    cp -r ${VDK_PATH}/projects/default ${PROJECT_PATH}
+    cp -r ${VDK_PATH}/projects/default/* ${PROJECT_PATH}/
 
     info "Project \"${1}\" created successful! \n  Please customize projects files by path: ${PROJECT_PATH}"
 fi

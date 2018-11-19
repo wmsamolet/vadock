@@ -11,10 +11,10 @@ services:
         container_name: ${VDK_PREFIX}mysql
         command: mysqld --user=root
         build:
-            context: ../../../../docker/images/mysql
+            context: ./../../../docker/images/mysql
             args:
                 - version=latest
         env_file:
-            - ../../.env
+            - ./../.env
         ports:
             - ${VDK_MYSQL_PORT}:3306
