@@ -15,7 +15,7 @@ PROJECT_NAME="default"
 if [ ! -z "$1" ]
   then PROJECT_NAME=$1
   else
-    read -p "PROJECT_NAME [example: default]: " INPUT_PROJECT_NAME
+    read -p "PROJECT_NAME [${PROJECT_NAME}]: " INPUT_PROJECT_NAME
 fi
 
 if [ ! -z ${INPUT_PROJECT_NAME} ]
@@ -32,7 +32,7 @@ COMPOSE_FILE="php"
 if [ ! -z "$2" ]
   then COMPOSE_FILE=$2
   else
-    read -p "COMPOSE_FILE [example: php]: " INPUT_COMPOSE_FILE
+    read -p "COMPOSE_FILE [${COMPOSE_FILE}]: " INPUT_COMPOSE_FILE
 fi
 
 if [ ! -z ${INPUT_COMPOSE_FILE} ]
@@ -45,10 +45,10 @@ echo
 #---------------------------------------------------------------------------------#
 
 VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
-PROJECT_NAME_PATH=${VDK_PATH}/projects/${PROJECT_NAME}
+PROJECT_PATH="${VDK_PATH}/projects/${PROJECT_NAME}"
 
 #---------------------------------------------------------------------------------#
 
 info "DOCKER INIT (UP + BUILD) project \"${PROJECT_NAME}\" compose file \"${COMPOSE_FILE}.yml\""
 
-(cd ${PROJECT_NAME_PATH} && env VDK_PROJECT_NAME=${PROJECT_NAME} docker-compose -p ${PROJECT_NAME} -f ${PROJECT_NAME_PATH}/docker/${COMPOSE_FILE}.yml up -d --build --force-recreate)
+(cd ${PROJECT_PATH} && env VDK_PROJECT_NAME=${PROJECT_NAME} docker-compose -p ${PROJECT_NAME} -f ${PROJECT_PATH}/docker/${COMPOSE_FILE}.yml up -d --build --force-recreate)

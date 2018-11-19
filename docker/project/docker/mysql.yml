@@ -6,13 +6,12 @@ networks:
         external: true
 
 services:
-    mariadb:
-        image: ${VDK_PREFIX}mariadb
-        container_name: ${VDK_PREFIX}mariadb
-        #command: faketime -m -f ${VDK_DOCKER_FAKETIME} mysqld --user=mysql
-        command: mysqld --user=mysql
+    mysql:
+        image: ${VDK_PREFIX}mysql
+        container_name: ${VDK_PREFIX}mysql
+        command: mysqld --user=root
         build:
-            context: ./../../../docker/images/mariadb
+            context: ${VDK_HOST_PATH}/docker/images/mysql
             args:
                 - version=latest
         env_file:

@@ -71,9 +71,9 @@ DOCKER_BIN_PATH=${VDK_PATH}/docker/bin
 
 if [ ${ACTION} == "create" ] || [ ${ACTION} == "build" ]
 then
-    cp -r ${VDK_PATH}/projects/default/* ${PROJECT_PATH}/
+    cp -nR ${VDK_PATH}/docker/project/. ${PROJECT_PATH}/
 
-    info "Project \"${1}\" created successful! \n  Please customize projects files by path: ${PROJECT_PATH}"
+    info "Project \"${1}\" created successful! \n-  Please customize projects files by path: ${PROJECT_PATH}"
 fi
 
 #---------------------------------------------------------------------------------------------#
@@ -99,7 +99,7 @@ then
         VDK_ENV_VAR="$VDK_ENV_NAME"
         VDK_ENV_VALUE=${!VDK_ENV_VAR}
 
-        read -p "Enter valuer for \"${VDK_ENV_NAME}\" [default: ${VDK_ENV_VALUE}]: " VDK_ENV_VALUE_INPUT
+        read -p "Enter valuer for \"${VDK_ENV_NAME}\" [${VDK_ENV_VALUE}]: " VDK_ENV_VALUE_INPUT
 
         if [ ! -z ${VDK_ENV_VALUE_INPUT} ]
         then

@@ -10,12 +10,12 @@ services:
         image: ${VDK_PREFIX}pma
         container_name: ${VDK_PREFIX}pma
         build:
-            context: ${VDK_PMA_IMAGE_PATH}
+            context: ${VDK_HOST_PATH}/docker/images/pma
             args:
                 - version=${VDK_PMA_IMAGE_VERSION}
         restart: always
         env_file:
-            - ../../.env
+            - ./../.env
         networks:
             - default
         ports:
