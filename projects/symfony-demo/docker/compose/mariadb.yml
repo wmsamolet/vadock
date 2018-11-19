@@ -1,0 +1,20 @@
+version: "3.5"
+
+networks:
+    default:
+        name: ${VDK_NETWORK_NAME}
+        external: true
+
+services:
+    mariadb:
+        container_name: demo_mariadb
+        #command: faketime -m -f ${VDK_DOCKER_FAKETIME} mysqld --user=mysql
+        command: mysqld --user=mysql
+        build:
+            context: ../../../../docker/images/mariadb
+            args:
+                - version=latest
+        env_file:
+            - ../../.env
+        ports:
+            - 3306:3306

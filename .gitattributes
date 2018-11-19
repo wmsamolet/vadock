@@ -2,4 +2,4 @@
 /docker/bin/* text=auto eol=lf
 /docker/export/* text=auto eol=lf
 /vagrant/provision/* text=auto eol=lf
-/config/*/.env text=auto eol=lf
+/projects/*/.env text=auto eol=lf

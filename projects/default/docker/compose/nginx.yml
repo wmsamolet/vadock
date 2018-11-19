@@ -12,7 +12,7 @@ services:
             context: ../../../../docker/images/nginx
             args:
                 - version=latest
-                - nginx_conf_path=${VDK_HOST_PATH}/config/${VDK_PROJECT_NAME}/nginx.conf
+                - nginx_conf_path=${VDK_HOST_PATH}/projects/${VDK_PROJECT_NAME}/nginx.conf
         ports:
             - 80:80
         env_file:

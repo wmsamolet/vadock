@@ -1,0 +1,24 @@
+version: "3.5"
+
+networks:
+    default:
+        name: ${VDK_NETWORK_NAME}
+        external: true
+
+services:
+    PHP:
+        image: php
+        container_name: php
+        command: faketime -f ${VDK_DOCKER_FAKETIME} php-fpm
+        build:
+            context: ../../../../docker/images/php72
+            args:
+                - version=7.2-fpm
+                - php_confd_path=${VDK_HOST_PATH}/projects/${VDK_PROJECT_NAME}/php/7.2/*
+        env_file:
+            - ../../.env
+        ports:
+            - 9000:9000
+        user: www-data
+        volumes:
+            - ${VDK_HOST_WWW_PATH}:${VDK_DOCKER_WWW_PATH}

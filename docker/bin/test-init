@@ -45,7 +45,7 @@ echo
 #---------------------------------------------------------------------------------#
 
 VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
-PROJECT_NAME_PATH=${VDK_PATH}/config/${PROJECT_NAME}
+PROJECT_NAME_PATH=${VDK_PATH}/projects/${PROJECT_NAME}
 
 #---------------------------------------------------------------------------------#
 

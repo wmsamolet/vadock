@@ -18,7 +18,7 @@ ACTION=""
 if [ ! -z "$1" ]
   then ACTION=$1
 else
-    read -p "Enter command [example: create]: " INPUT
+    read -p "Enter command (build, create, configure, init, deinit): " INPUT
     echo
 fi
 
@@ -30,6 +30,16 @@ fi
 if [ ${ACTION} == "" ]
 then
     echo "ERROR: Please enter action name"
+    exit 1
+fi
+
+#---------------------------------------------------------------------------------------------#
+
+if [ ${ACTION} == "list" ]
+then
+    info "Project list:"
+    printf " %s\n" ./projects/*/
+    echo
     exit 1
 fi
 
@@ -53,22 +63,22 @@ fi
 
 VDK_PATH="$( cd "$(dirname "$0")"/../ ; pwd -P )"
 
-PROJECT_PATH=${VDK_PATH}/config/${PROJECT_NAME}
+PROJECT_PATH=${VDK_PATH}/projects/${PROJECT_NAME}
 
 DOCKER_BIN_PATH=${VDK_PATH}/docker/bin
 
 #---------------------------------------------------------------------------------------------#
 
-if [ "$ACTION" == "create" ]
+if [ ${ACTION} == "create" ] || [ ${ACTION} == "build" ]
 then
-    cp -r ${VDK_PATH}/config/default ${PROJECT_PATH}
+    cp -r ${VDK_PATH}/projects/default ${PROJECT_PATH}
 
-    info "Project \"${1}\" created successful! \n  Please customize config files by path: ${PROJECT_PATH}"
+    info "Project \"${1}\" created successful! \n  Please customize projects files by path: ${PROJECT_PATH}"
 fi
 
 #---------------------------------------------------------------------------------------------#
 
-if [ "$ACTION" == "configure" ]
+if [ ${ACTION} == "configure" ] || [ ${ACTION} == "build" ]
 then
     info "Configure project \"${PROJECT_NAME}\""
 
@@ -102,9 +112,16 @@ fi
 
 #---------------------------------------------------------------------------------------------#
 
-if [ ${ACTION} == "init" ] || [ ${ACTION} == "deinit" ]
+if [ ${ACTION} == "init" ] || [ ${ACTION} == "deinit" ] || [ ${ACTION} == "build" ]
 then
     source ${PROJECT_PATH}/.env
+
+    ACTION_BIN="${ACTION}"
+
+    if [ ${ACTION} == "build" ]
+    then
+        ACTION_BIN=init
+    fi
 
     #
     # Init network
@@ -121,7 +138,7 @@ then
 
         #echo "${DOCKER_BIN_PATH}/${ACTION} ${PROJECT_NAME} ${COMPOSE_FILE_NAME}"
 
-        ${DOCKER_BIN_PATH}/init ${PROJECT_NAME} ${COMPOSE_FILE_NAME}
+        ${DOCKER_BIN_PATH}/${ACTION_BIN} ${PROJECT_NAME} ${COMPOSE_FILE_NAME}
     done
 fi
 

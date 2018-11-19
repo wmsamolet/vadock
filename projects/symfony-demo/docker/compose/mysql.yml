@@ -1,0 +1,22 @@
+version: "3.5"
+
+networks:
+    default:
+        name: ${VDK_NETWORK_NAME}
+        external: true
+
+services:
+    mysql:
+        container_name: mysql
+        command: mysqld --user=root
+        build:
+            context: ../../../../docker/images/mysql
+            args:
+                - version=latest
+        env_file:
+            - ../../.env
+        ports:
+            - 3306:3306
+        volumes:
+            - ${VDK_HOST_WWW_PATH}:${VDK_DOCKER_WWW_PATH}
+            - ${VDK_HOST_PATH}/data/mysql:/var/local

@@ -1,0 +1,23 @@
+version: "3.5"
+
+networks:
+    default:
+        name: ${VDK_NETWORK_NAME}
+        external: true
+
+services:
+    nginx:
+        container_name: demo_nginx
+        build:
+            context: ../../../../docker/images/nginx
+            args:
+                - version=latest
+                - nginx_conf_path=${VDK_HOST_PATH}/projects/${VDK_PROJECT_NAME}/nginx.conf
+        ports:
+            - 80:80
+        env_file:
+            - ../../.env
+        volumes:
+            - ${VDK_HOST_WWW_PATH}:${VDK_DOCKER_WWW_PATH}
+            - ./../../nginx/hosts:/etc/nginx/conf.d
+            - ./../../logs:/var/log/nginx

@@ -1,0 +1,21 @@
+version: "3.5"
+
+networks:
+    default:
+        name: ${VDK_NETWORK_NAME}
+        external: true
+
+services:
+    pma:
+        container_name: pma
+        build:
+            context: ${VDK_PMA_IMAGE_PATH}
+            args:
+                - version=${VDK_PMA_IMAGE_VERSION}
+        restart: always
+        env_file:
+            - ../../.env
+        networks:
+            - default
+        ports:
+            - 8080:80

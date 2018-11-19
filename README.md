@@ -13,7 +13,7 @@ vagrant plugin install vagrant-vbguest
 vagrant plugin install vagrant-hostmanager
 ```
 
-#### Step 4: Customize config's in /you/project/dir/config/YOU_PROJECT_NAME/vagrant.yml
+#### Step 4: Customize config's in /you/project/dir/projects/YOU_PROJECT_NAME/vagrant.yml
 
 #### Step 5: Start virtual machine:
 ```bash
@@ -36,7 +36,7 @@ cd /you/project/dir/
 ./bin/project create YOU_PROJECT_NAME
 ```
 
-#### Step 3: Customize config's in /you/project/dir/config/YOU_PROJECT_NAME/*
+#### Step 3: Customize config's in /you/project/dir/projects/YOU_PROJECT_NAME/*
 
 #### Step 4: Init project 
 ```bash
