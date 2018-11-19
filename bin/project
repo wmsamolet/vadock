@@ -78,19 +78,23 @@ fi
 
 #---------------------------------------------------------------------------------------------#
 
-if [ ${ACTION} == "configure" ] || [ ${ACTION} == "build" ]
+if [ ${ACTION} == "conf" ] || [ ${ACTION} == "configure" ] || [ ${ACTION} == "build" ]
 then
     info "Configure project \"${PROJECT_NAME}\""
 
     source ${PROJECT_PATH}/.env
 
-    VDK_ENV_S[0]="VDK_HOST_PATH"
-    VDK_ENV_S[1]="VDK_HOST_WWW_PATH"
-    VDK_ENV_S[2]="VDK_DOCKER_WWW_PATH"
-    VDK_ENV_S[3]="VDK_NETWORK_NAME"
-    VDK_ENV_S[4]="VDK_COMPOSE_LIST"
+    VAR_ENV_NAMES=()
 
-    for VDK_ENV_NAME in "${VDK_ENV_S[@]}"; do
+    while IFS='' read -r line || [[ -n "$line" ]]; do
+        if [[ $line =~ ^[A-Z\_]+\= ]] ;
+        then
+            VDK_ENV_NAME=$(echo $line | cut -f1 -d '=')
+            VDK_ENV_NAMES+=(${VDK_ENV_NAME})
+        fi
+    done < ${PROJECT_PATH}/.env
+
+    for VDK_ENV_NAME in "${VDK_ENV_NAMES[@]}"; do
 
         VDK_ENV_VAR="$VDK_ENV_NAME"
         VDK_ENV_VALUE=${!VDK_ENV_VAR}
@@ -143,6 +147,18 @@ then
 fi
 
 #---------------------------------------------------------------------------------------------#
+
+if [ ${ACTION} == "test" ]
+then
+
+    while IFS='' read -r line || [[ -n "$line" ]]; do
+        if [[ $line =~ ^[A-Z\_]+\= ]] ;
+        then
+            VAR=$(echo $line | cut -f1 -d '=')
+            echo "VAR: ${VAR}"
+        fi
+    done < ${PROJECT_PATH}/.env
+fi
 
 echo "----------------------------------------------------------------------------------------"
 echo

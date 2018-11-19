@@ -7,7 +7,8 @@ networks:
 
 services:
     mysql:
-        container_name: mysql
+        image: ${VDK_PREFIX}mysql
+        container_name: ${VDK_PREFIX}mysql
         command: mysqld --user=root
         build:
             context: ../../../../docker/images/mysql
@@ -16,7 +17,4 @@ services:
         env_file:
             - ../../.env
         ports:
-            - 3306:3306
-        volumes:
-            - ${VDK_HOST_WWW_PATH}:${VDK_DOCKER_WWW_PATH}
-            - ${VDK_HOST_PATH}/data/mysql:/var/local
+            - ${VDK_MYSQL_PORT}:3306

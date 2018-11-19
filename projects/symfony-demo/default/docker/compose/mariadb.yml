@@ -7,7 +7,8 @@ networks:
 
 services:
     mariadb:
-        container_name: mariadb
+        image: ${VDK_PREFIX}mariadb
+        container_name: ${VDK_PREFIX}mariadb
         #command: faketime -m -f ${VDK_DOCKER_FAKETIME} mysqld --user=mysql
         command: mysqld --user=mysql
         build:
@@ -17,4 +18,4 @@ services:
         env_file:
             - ../../.env
         ports:
-            - 3306:3306
+            - ${VDK_MYSQL_PORT}:3306

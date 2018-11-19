@@ -51,4 +51,4 @@ PROJECT_NAME_PATH=${VDK_PATH}/projects/${PROJECT_NAME}
 
 info "DOCKER INIT (UP + BUILD) project \"${PROJECT_NAME}\" compose file \"${COMPOSE_FILE}.yml\""
 
-(cd ${PROJECT_NAME_PATH} && env VDK_PROJECT_NAME=${PROJECT_NAME} docker-compose -p ${PROJECT_NAME} -f ${PROJECT_NAME_PATH}/docker/compose/${COMPOSE_FILE}.yml up -d --build --force-recreate)
+(cd ${PROJECT_NAME_PATH} && env VDK_PROJECT_NAME=${PROJECT_NAME} docker-compose -p ${PROJECT_NAME} -f ${PROJECT_NAME_PATH}/docker/${COMPOSE_FILE}.yml up -d --build --force-recreate)
