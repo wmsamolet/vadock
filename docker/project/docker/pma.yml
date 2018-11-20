@@ -10,7 +10,7 @@ services:
         image: ${VDK_PREFIX}pma
         container_name: ${VDK_PREFIX}pma
         build:
-            context: ${VDK_HOST_PATH}/docker/images/pma
+            context: ${VDK_PATH}/docker/images/pma
             args:
                 - version=${VDK_PMA_IMAGE_VERSION}
         restart: always

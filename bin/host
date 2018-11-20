@@ -35,16 +35,6 @@ fi
 
 #---------------------------------------------------------------------------------------------#
 
-if [ ${ACTION} == "list" ]
-then
-    info "Project list:"
-    printf " %s\n" ./projects/*/
-    echo
-    exit 1
-fi
-
-#---------------------------------------------------------------------------------------------#
-
 PROJECT_NAME="new-project"
 
 if [ ! -z "$2" ]
@@ -67,34 +57,59 @@ PROJECT_PATH=${VDK_PATH}/projects/${PROJECT_NAME}
 
 DOCKER_BIN_PATH=${VDK_PATH}/docker/bin
 
+source ${PROJECT_PATH}/.env
+
 #---------------------------------------------------------------------------------------------#
 
-if [ ${ACTION} == "create" ] || [ ${ACTION} == "build" ]
+if [ ${ACTION} == "list" ]
 then
-    cp -nR ${VDK_PATH}/docker/project/. ${PROJECT_PATH}/
-
-    info "Project \"${1}\" created successful! \n-  Please customize projects files by path: ${PROJECT_PATH}"
+    info "Project list:"
+    printf " %s\n" ./projects/${PROJECT_NAME}/nginx/hosts/*.conf
+    echo
+    exit 1
 fi
 
 #---------------------------------------------------------------------------------------------#
 
-if [ ${ACTION} == "conf" ] || [ ${ACTION} == "configure" ] || [ ${ACTION} == "create" ] || [ ${ACTION} == "build" ]
+HOST_NAME=${VDK_HOST_NAME}
+
+if [ ! -z "$3" ]
+  then HOST_NAME=$3
+else
+    read -p "Enter host name [${HOST_NAME}]: " INPUT
+    echo
+fi
+
+if [ ! -z ${INPUT} ]
 then
-    info "Configure project \"${PROJECT_NAME}\""
+    HOST_NAME=${INPUT}
+fi
 
-    source ${PROJECT_PATH}/.env
+#---------------------------------------------------------------------------------------------#
 
-    VAR_ENV_NAMES=()
+if [ ${ACTION} == "create" ]
+then
+    cp -nR ${VDK_PATH}/docker/project/nginx/hosts/default.local.conf ${PROJECT_PATH}/nginx/hosts/${HOST_NAME}.conf
+
+    info "Host \"${HOST_NAME}\" created successful!"
+
+    info "Configure host \"${HOST_NAME}\""
+
+    VDK_HOST_NAME=${HOST_NAME}
+    VDK_HOST_SERVER_NAMES=${VDK_HOST_NAME}
+    VDK_HOST_ROOT=www
+
+    VAR_ENV_NAMES=(VDK_HOST_NAME VDK_HOST_SERVER_NAMES VDK_HOST_ROOT)
 
     while IFS='' read -r line || [[ -n "$line" ]]; do
         if [[ $line =~ ^[A-Z\_]+\= ]] ;
         then
             VDK_ENV_NAME=$(echo $line | cut -f1 -d '=')
-            VDK_ENV_NAMES+=(${VDK_ENV_NAME})
+            VAR_ENV_NAMES+=(${VDK_ENV_NAME})
         fi
     done < ${PROJECT_PATH}/.env
 
-    for VDK_ENV_NAME in "${VDK_ENV_NAMES[@]}"; do
+    for VDK_ENV_NAME in "${VAR_ENV_NAMES[@]}"; do
 
         VDK_ENV_VAR="$VDK_ENV_NAME"
         VDK_ENV_VALUE=${!VDK_ENV_VAR}
@@ -106,55 +121,12 @@ then
             VDK_ENV_VALUE=${VDK_ENV_VALUE_INPUT}
         fi
 
-        search="${VDK_ENV_NAME}=.*"
-        replace="${VDK_ENV_NAME}=${VDK_ENV_VALUE}"
-        sed -i -- "s|${search}|${replace}|g" ${PROJECT_PATH}/.env
+        search="{${VDK_ENV_NAME}}"
+        replace="${VDK_ENV_VALUE}"
+        sed -i -- "s|${search}|${replace}|g" ${PROJECT_PATH}/nginx/hosts/${HOST_NAME}.conf
     done
 
     echo
-fi
-
-#---------------------------------------------------------------------------------------------#
-
-if [ ${ACTION} == "init" ] || [ ${ACTION} == "deinit" ] || [ ${ACTION} == "build" ]
-then
-    source ${PROJECT_PATH}/.env
-
-    ACTION_BIN="${ACTION}"
-
-    if [ ${ACTION} == "build" ]
-    then
-        ACTION_BIN=init
-    fi
-
-    #
-    # Init network
-    #
-
-    ${DOCKER_BIN_PATH}/init-network ${VDK_NETWORK_NAME}
-
-    #
-    # Init project compose files
-    #
-
-    if [ ! -z "$3" ]
-    then
-        COMPOSE_FILE_NAME=$3
-        ${DOCKER_BIN_PATH}/${ACTION_BIN} ${PROJECT_NAME} ${COMPOSE_FILE_NAME}
-    else
-        IFS=',' read -ra COMPOSE_FILE_NAMES <<< "${VDK_COMPOSE_LIST}"
-
-        for COMPOSE_FILE_NAME in "${COMPOSE_FILE_NAMES[@]}"; do
-            ${DOCKER_BIN_PATH}/${ACTION_BIN} ${PROJECT_NAME} ${COMPOSE_FILE_NAME}
-        done
-    fi
-fi
-
-#---------------------------------------------------------------------------------------------#
-
-if [ ${ACTION} == "create" ]
-then
-    ${VDK_PATH}/bin/host create ${PROJECT_NAME}
 fi
 
 echo "----------------------------------------------------------------------------------------"

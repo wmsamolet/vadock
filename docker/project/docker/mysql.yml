@@ -11,7 +11,7 @@ services:
         container_name: ${VDK_PREFIX}mysql
         command: mysqld --user=root
         build:
-            context: ${VDK_HOST_PATH}/docker/images/mysql
+            context: ${VDK_PATH}/docker/images/mysql
             args:
                 - version=latest
         env_file:

@@ -10,15 +10,15 @@ services:
         image: ${VDK_PREFIX}nginx
         container_name: ${VDK_PREFIX}nginx
         build:
-            context: ${VDK_HOST_PATH}/docker/images/nginx
+            context: ${VDK_PATH}/docker/images/nginx
             args:
                 - version=latest
-                - nginx_conf_path=${VDK_HOST_PATH}/projects/${VDK_PROJECT_NAME}/nginx.conf
+                - nginx_conf_path=${VDK_PATH}/projects/${VDK_PROJECT_NAME}/nginx.conf
         ports:
             - ${VDK_NGINX_PORT}:80
         env_file:
             - ./../.env
         volumes:
-            - ${VDK_HOST_WWW_PATH}:${VDK_DOCKER_WWW_PATH}
+            - ${VDK_WWW_PATH}:${VDK_DOCKER_WWW_PATH}
             - ./../nginx/hosts:/etc/nginx/conf.d
             - ./../nginx/logs:/var/log/nginx
