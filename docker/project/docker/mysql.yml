@@ -18,3 +18,5 @@ services:
             - ./../.env
         ports:
             - ${VDK_MYSQL_PORT}:3306
+        volumes:
+            - ${VDK_WWW_PATH}:${VDK_DOCKER_WWW_PATH}
