@@ -1,0 +1,3 @@
+#!/bin/bash
+
+docker exec -itw /host${PWD} VDK_CONTAINER_NAME php "$@"
