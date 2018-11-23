@@ -13,26 +13,23 @@ echo
 
 #---------------------------------------------------------------------------------------------#
 
-PROJECT_NAME="new-project"
-
-if [ ! -z "$1" ]
-  then PROJECT_NAME=$1
-else
-    read -p "Enter project name [default: new-project]: " INPUT
+if [ -z ${VDK_PROJECT_NAME} ]
+then
+    read -p "Enter project name [${VDK_PROJECT_NAME}]: " INPUT
     echo
 fi
 
 if [ ! -z ${INPUT} ]
 then
-    PROJECT_NAME=${INPUT}
+    VDK_PROJECT_NAME=${INPUT}
 fi
 
 #---------------------------------------------------------------------------------------------#
 
 DOCKER_COMPOSE_NAME="php"
 
-if [ ! -z "$2" ]
-  then DOCKER_COMPOSE_NAME=$2
+if [ ! -z "$1" ]
+  then DOCKER_COMPOSE_NAME=$1
 else
     read -p "Enter docker container name [${DOCKER_COMPOSE_NAME}]: " INPUT
     echo
@@ -47,23 +44,15 @@ fi
 
 DOCKER_CONTAINER_COMMAND="/bin/bash"
 
-if [ ! -z "$3" ]
-  then DOCKER_CONTAINER_COMMAND=$3
-else
-    read -p "Enter docker container command [${DOCKER_CONTAINER_COMMAND}]: " INPUT
-    echo
-fi
-
-if [ ! -z ${INPUT} ]
-then
-    DOCKER_CONTAINER_COMMAND=${INPUT}
+if [ ! -z "$2" ]
+  then DOCKER_CONTAINER_COMMAND=$2
 fi
 
 #---------------------------------------------------------------------------------------------#
 
 VDK_PATH="$( cd "$(dirname "$0")"/../ ; pwd -P )"
 
-PROJECT_PATH=${VDK_PATH}/projects/${PROJECT_NAME}
+PROJECT_PATH=${VDK_PATH}/projects/${VDK_PROJECT_NAME}
 
 DOCKER_BIN_PATH=${VDK_PATH}/docker/bin
 
@@ -71,6 +60,6 @@ source ${PROJECT_PATH}/.env
 
 #---------------------------------------------------------------------------------------------#
 
-(cd ${PROJECT_PATH} && env VDK_PROJECT_NAME=${PROJECT_NAME} docker exec -it ${VDK_PREFIX}${DOCKER_COMPOSE_NAME} ${DOCKER_CONTAINER_COMMAND})
+(cd ${PROJECT_PATH} && env VDK_PROJECT_NAME=${VDK_PROJECT_NAME} docker exec -it ${VDK_PREFIX}${DOCKER_COMPOSE_NAME} ${DOCKER_CONTAINER_COMMAND})
 
 echo

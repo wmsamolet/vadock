@@ -1,0 +1,74 @@
+#!/bin/bash
+
+VDK_PATH="$( cd "$(dirname "$0")" ; pwd -P )"
+VDK_PROJECT_NAME=""
+VDK_EXPORT_BIN_PATH=/usr/local/bin/vadock
+
+### VDK_PATH=%PATH%
+### VDK_PROJECT_NAME=%PROJECT_NAME%
+### VDK_EXPORT_BIN_PATH=%EXPORT_BIN_PATH%
+
+#---------------------------------------------------------------------------------------------#
+
+if [ $1 == "export" ]
+then
+    if [ ! -z "$2" ]
+      then VDK_PROJECT_NAME=$2
+    else
+        echo
+
+        read -p "Enter project name [${VDK_PROJECT_NAME}]: " INPUT
+
+        if [ ! -z ${INPUT} ]
+        then
+            VDK_PROJECT_NAME=${INPUT}
+        fi
+
+        echo
+    fi
+
+    if [ ! -z "$3" ]
+      then VDK_EXPORT_BIN_PATH=$3
+    else
+        echo
+
+        read -p "Export binary path [${VDK_EXPORT_BIN_PATH}]: " INPUT
+
+        if [ ! -z ${INPUT} ]
+        then
+            VDK_EXPORT_BIN_PATH=${INPUT}
+        fi
+
+        echo
+    fi
+
+    cp ${VDK_PATH}/vadock ${VDK_EXPORT_BIN_PATH}
+
+    search="%PATH%"
+    replace=${VDK_PATH}
+    sed -i "s#${search}#${replace}#g" ${VDK_EXPORT_BIN_PATH}
+    
+    search="%PROJECT_NAME%"
+    replace=${VDK_PROJECT_NAME}
+    sed -i "s#${search}#${replace}#g" ${VDK_EXPORT_BIN_PATH}
+
+    search="%BIN_NAME%"
+    replace=${VDK_BIN_NAME}
+    sed -i "s#${search}#${replace}#g" ${VDK_EXPORT_BIN_PATH}
+
+    search="%EXPORT_BIN_PATH%"
+    replace=${VDK_EXPORT_BIN_PATH}
+    sed -i "s#${search}#${replace}#g" ${VDK_EXPORT_BIN_PATH}
+
+    search="### "
+    replace=""
+    sed -i "s/${search}/${replace}/g" ${VDK_EXPORT_BIN_PATH}
+
+    chmod +x ${VDK_EXPORT_BIN_PATH}
+
+    exit 1
+fi
+
+#---------------------------------------------------------------------------------------------#
+
+env VDK_PROJECT_NAME="${VDK_PROJECT_NAME}" ${VDK_PATH}/bin/"$@"

@@ -13,6 +13,19 @@ echo
 
 #---------------------------------------------------------------------------------------------#
 
+if [ -z ${VDK_PROJECT_NAME} ]
+then
+    read -p "Enter project name [${VDK_PROJECT_NAME}]: " INPUT
+    echo
+fi
+
+if [ ! -z ${INPUT} ]
+then
+    VDK_PROJECT_NAME=${INPUT}
+fi
+
+#---------------------------------------------------------------------------------------------#
+
 ACTION=""
 
 if [ ! -z "$1" ]
@@ -35,25 +48,9 @@ fi
 
 #---------------------------------------------------------------------------------------------#
 
-PROJECT_NAME="new-project"
-
-if [ ! -z "$2" ]
-  then PROJECT_NAME=$2
-else
-    read -p "Enter project name [default: new-project]: " INPUT
-    echo
-fi
-
-if [ ! -z ${INPUT} ]
-then
-    PROJECT_NAME=${INPUT}
-fi
-
-#---------------------------------------------------------------------------------------------#
-
 VDK_PATH="$( cd "$(dirname "$0")"/../ ; pwd -P )"
 
-PROJECT_PATH=${VDK_PATH}/projects/${PROJECT_NAME}
+PROJECT_PATH=${VDK_PATH}/projects/${VDK_PROJECT_NAME}
 
 DOCKER_BIN_PATH=${VDK_PATH}/docker/bin
 
@@ -64,7 +61,7 @@ source ${PROJECT_PATH}/.env
 if [ ${ACTION} == "list" ]
 then
     info "Project list:"
-    printf " %s\n" ./projects/${PROJECT_NAME}/nginx/hosts/*.conf
+    printf " %s\n" ./projects/${VDK_PROJECT_NAME}/nginx/hosts/*.conf
     echo
     exit 1
 fi
@@ -73,8 +70,8 @@ fi
 
 HOST_NAME=${VDK_HOST_NAME}
 
-if [ ! -z "$3" ]
-  then HOST_NAME=$3
+if [ ! -z "$2" ]
+  then HOST_NAME=$2
 else
     read -p "Enter host name [${HOST_NAME}]: " INPUT
     echo

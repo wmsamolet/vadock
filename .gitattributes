@@ -1,4 +1,5 @@
-/bin/* text=auto eol=lf
+/vadock text=auto eol=lf
+/bin/export/* text=auto eol=lf
 /docker/bin/* text=auto eol=lf
 /docker/project/.env text=auto eol=lf
 /vagrant/provision/* text=auto eol=lf

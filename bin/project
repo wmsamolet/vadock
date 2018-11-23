@@ -13,6 +13,19 @@ echo
 
 #---------------------------------------------------------------------------------------------#
 
+if [ -z ${VDK_PROJECT_NAME} ]
+then
+    read -p "Enter project name [${VDK_PROJECT_NAME}]: " INPUT
+    echo
+fi
+
+if [ ! -z ${INPUT} ]
+then
+    VDK_PROJECT_NAME=${INPUT}
+fi
+
+#---------------------------------------------------------------------------------------------#
+
 ACTION=""
 
 if [ ! -z "$1" ]
@@ -45,25 +58,9 @@ fi
 
 #---------------------------------------------------------------------------------------------#
 
-PROJECT_NAME="new-project"
-
-if [ ! -z "$2" ]
-  then PROJECT_NAME=$2
-else
-    read -p "Enter project name [default: new-project]: " INPUT
-    echo
-fi
-
-if [ ! -z ${INPUT} ]
-then
-    PROJECT_NAME=${INPUT}
-fi
-
-#---------------------------------------------------------------------------------------------#
-
 VDK_PATH="$( cd "$(dirname "$0")"/../ ; pwd -P )"
 
-PROJECT_PATH=${VDK_PATH}/projects/${PROJECT_NAME}
+VDK_PROJECT_PATH=${VDK_PATH}/projects/${VDK_PROJECT_NAME}
 
 DOCKER_BIN_PATH=${VDK_PATH}/docker/bin
 
@@ -71,18 +68,18 @@ DOCKER_BIN_PATH=${VDK_PATH}/docker/bin
 
 if [ ${ACTION} == "create" ] || [ ${ACTION} == "build" ]
 then
-    cp -nR ${VDK_PATH}/docker/project/. ${PROJECT_PATH}/
+    cp -nR ${VDK_PATH}/docker/project/. ${VDK_PROJECT_PATH}/
 
-    info "Project \"${1}\" created successful! \n-  Please customize projects files by path: ${PROJECT_PATH}"
+    info "Project \"${VDK_PROJECT_NAME}\" created successful! \n-  Please customize projects files by path: ${VDK_PROJECT_PATH}"
 fi
 
 #---------------------------------------------------------------------------------------------#
 
 if [ ${ACTION} == "conf" ] || [ ${ACTION} == "configure" ] || [ ${ACTION} == "create" ] || [ ${ACTION} == "build" ]
 then
-    info "Configure project \"${PROJECT_NAME}\""
+    info "Configure project \"${VDK_PROJECT_NAME}\""
 
-    source ${PROJECT_PATH}/.env
+    source ${VDK_PROJECT_PATH}/.env
 
     VAR_ENV_NAMES=()
 
@@ -92,7 +89,7 @@ then
             VDK_ENV_NAME=$(echo $line | cut -f1 -d '=')
             VDK_ENV_NAMES+=(${VDK_ENV_NAME})
         fi
-    done < ${PROJECT_PATH}/.env
+    done < ${VDK_PROJECT_PATH}/.env
 
     for VDK_ENV_NAME in "${VDK_ENV_NAMES[@]}"; do
 
@@ -108,7 +105,7 @@ then
 
         search="${VDK_ENV_NAME}=.*"
         replace="${VDK_ENV_NAME}=${VDK_ENV_VALUE}"
-        sed -i -- "s|${search}|${replace}|g" ${PROJECT_PATH}/.env
+        sed -i -- "s|${search}|${replace}|g" ${VDK_PROJECT_PATH}/.env
     done
 
     echo
@@ -118,7 +115,7 @@ fi
 
 if [ ${ACTION} == "init" ] || [ ${ACTION} == "deinit" ] || [ ${ACTION} == "build" ]
 then
-    source ${PROJECT_PATH}/.env
+    source ${VDK_PROJECT_PATH}/.env
 
     ACTION_BIN="${ACTION}"
 
@@ -137,15 +134,15 @@ then
     # Init project compose files
     #
 
-    if [ ! -z "$3" ]
+    if [ ! -z "$2" ]
     then
-        COMPOSE_FILE_NAME=$3
-        ${DOCKER_BIN_PATH}/${ACTION_BIN} ${PROJECT_NAME} ${COMPOSE_FILE_NAME}
+        COMPOSE_FILE_NAME=$2
+        ${DOCKER_BIN_PATH}/${ACTION_BIN} ${VDK_PROJECT_NAME} ${COMPOSE_FILE_NAME}
     else
         IFS=',' read -ra COMPOSE_FILE_NAMES <<< "${VDK_COMPOSE_LIST}"
 
         for COMPOSE_FILE_NAME in "${COMPOSE_FILE_NAMES[@]}"; do
-            ${DOCKER_BIN_PATH}/${ACTION_BIN} ${PROJECT_NAME} ${COMPOSE_FILE_NAME}
+            ${DOCKER_BIN_PATH}/${ACTION_BIN} ${VDK_PROJECT_NAME} ${COMPOSE_FILE_NAME}
         done
     fi
 fi
@@ -154,7 +151,7 @@ fi
 
 if [ ${ACTION} == "create" ]
 then
-    ${VDK_PATH}/bin/host create ${PROJECT_NAME}
+    ${VDK_PATH}/bin/host create ${VDK_PROJECT_NAME}
 fi
 
 echo "----------------------------------------------------------------------------------------"
