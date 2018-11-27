@@ -30,7 +30,7 @@ echo
 
 #---------------------------------------------------------------------------------#
 
-VDK_CONTAINER_NAME="vdk_php71"
+VDK_CONTAINER_NAME="php"
 
 if [ ! -z "$2" ]
   then VDK_CONTAINER_NAME=$2
@@ -64,6 +64,16 @@ fi
 echo "[BIN_NAME_TO]: ${BIN_NAME_TO}"
 echo
 
+#---------------------------------------------------------------------------------------------#
+
+read -p "Enter project name [${VDK_PROJECT_NAME}]: " INPUT
+echo
+
+if [ ! -z ${INPUT} ]
+then
+    VDK_PROJECT_NAME=${INPUT}
+fi
+
 #---------------------------------------------------------------------------------#
 
 VDK_PATH="$( cd "$(dirname "$0")"/../../ ; pwd -P )"
@@ -74,8 +84,18 @@ info "Set image ${VDK_CONTAINER_NAME}:${BIN_NAME_FROM} to /usr/bin/${BIN_NAME_TO
 
 cp ${VDK_PATH}/docker/export/${BIN_NAME_FROM} /usr/bin/${BIN_NAME_TO}
 
-search="VDK_CONTAINER_NAME"
+search="{VDK_CONTAINER_NAME}"
 replace=${VDK_CONTAINER_NAME}
+sed -i "s#${search}#${replace}#g" /usr/bin/${BIN_NAME_TO}
+
+source ${VDK_PATH}/projects/${VDK_PROJECT_NAME}/.env
+
+search="{VDK_WWW_PATH}"
+replace=${VDK_WWW_PATH}
+sed -i "s#${search}#${replace}#g" /usr/bin/${BIN_NAME_TO}
+
+search="{VDK_DOCKER_WWW_PATH}"
+replace=${VDK_DOCKER_WWW_PATH}
 sed -i "s#${search}#${replace}#g" /usr/bin/${BIN_NAME_TO}
 
 chmod +x /usr/bin/${BIN_NAME_TO}

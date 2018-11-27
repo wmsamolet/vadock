@@ -1,3 +1,9 @@
 #!/bin/bash
 
-docker exec -itw /host${PWD} VDK_CONTAINER_NAME php "$@"
+search="{VDK_WWW_PATH}"
+replace=""
+
+EXEC_PATH="${PWD/$search/$replace}"
+EXEC_WWW_PATH={VDK_DOCKER_WWW_PATH}/${EXEC_PATH}
+
+docker exec -itw ${EXEC_WWW_PATH} {VDK_CONTAINER_NAME} php "$@"

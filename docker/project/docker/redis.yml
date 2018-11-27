@@ -1,0 +1,19 @@
+version: "3.5"
+
+networks:
+    default:
+        name: ${VDK_NETWORK_NAME}
+        external: true
+
+services:
+    redis:
+        image: ${VDK_PREFIX}redis
+        container_name: ${VDK_PREFIX}redis
+        build:
+            context: ${VDK_PATH}/docker/images/redis
+            args:
+                - version=${VDK_REDIS_VERSION}
+        env_file:
+            - ./../.env
+        ports:
+            - ${VDK_REDIS_PORT}:6379

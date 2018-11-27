@@ -9,18 +9,15 @@ services:
     php:
         image: ${VDK_PREFIX}php
         container_name: ${VDK_PREFIX}php
-        #command: faketime -f ${VDK_DOCKER_FAKETIME} php-fpm
-        command: php-fpm
         build:
             context: ${VDK_PATH}/docker/images/php/${VDK_PHP_VERSION}
             args:
-                - VERSION=${VDK_PHP_VERSION}-fpm
                 - PHP_CONFD_PATH=${VDK_PATH}/projects/${VDK_PROJECT_NAME}/php/${VDK_PHP_VERSION}/*
 
         user: www-data
         ports:
             - ${VDK_PHP_PORT}:9000
         env_file:
-            - ./../.env
+            - ../../../docker/project/.env
         volumes:
             - ${VDK_WWW_PATH}:${VDK_DOCKER_WWW_PATH}
