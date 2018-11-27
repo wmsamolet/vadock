@@ -72,5 +72,8 @@ RUN apk del .build-deps \
 
 WORKDIR /host
 
+# Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 # Добавим свой php.ini, можем в нем определять свои значения конфига
 ADD ${PHP_CONFD_PATH} /usr/local/etc/php/conf.d/
